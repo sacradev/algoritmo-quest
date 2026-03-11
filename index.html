@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#1a1a2e">
-    <title>Algoritmo Quest - Jornada da Lógica</title>
+    <title>Algoritmo Quest</title>
     <style>
         * {
             margin: 0;
@@ -13,183 +12,228 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             min-height: 100vh;
             padding: 20px;
         }
 
-        .container {
-            max-width: 900px;
+        /* HOME */
+        .home-container {
+            max-width: 450px;
             margin: 0 auto;
         }
 
-        header {
+        .home-header {
             text-align: center;
             color: white;
-            margin-bottom: 40px;
-        }
-
-        header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .progress-word {
-            font-size: 2em;
-            letter-spacing: 10px;
-            margin: 20px 0;
-            font-weight: bold;
-        }
-
-        .progress-word span {
-            display: inline-block;
-            width: 40px;
-            height: 50px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 8px;
-            line-height: 50px;
-            margin: 0 5px;
-        }
-
-        .progress-word span.unlocked {
-            background: #00d4ff;
-            color: #000;
-            transform: scale(1.1);
-        }
-
-        .world-map {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .world-card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
-        }
-
-        .world-card.locked {
-            opacity: 0.5;
-            cursor: not-allowed;
-            background: #e0e0e0;
-        }
-
-        .world-card.completed {
-            background: linear-gradient(135deg, #00c853 0%, #00e676 100%);
-            color: white;
-        }
-
-        .world-card.current {
-            border: 3px solid #00d4ff;
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
-        }
-
-        .world-card:not(.locked):hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-
-        .world-number {
-            font-size: 1.2em;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .world-title {
-            font-size: 1em;
-            margin-bottom: 5px;
-        }
-
-        .world-letter {
-            font-size: 2em;
-            font-weight: bold;
-            color: #667eea;
-            margin-top: 10px;
-        }
-
-        .world-card.completed .world-letter {
-            color: white;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.8);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            padding: 20px;
-        }
-
-        .modal.show {
-            display: flex;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            max-width: 600px;
-            width: 100%;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .modal-header {
-            text-align: center;
             margin-bottom: 25px;
         }
 
-        .modal-header h2 {
-            color: #667eea;
-            font-size: 1.8em;
-            margin-bottom: 10px;
+        .home-header h1 {
+            font-size: 1.9em;
+            margin-bottom: 5px;
         }
 
-        .intro-card {
-            background: #f5f5f5;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-
-        .intro-card h3 {
-            color: #667eea;
-            margin-bottom: 10px;
-        }
-
-        .intro-card pre {
-            background: #2d2d2d;
-            color: #f8f8f2;
-            padding: 15px;
-            border-radius: 8px;
-            overflow-x: auto;
-            font-size: 0.9em;
-        }
-
-        .stage-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-            gap: 15px;
+        .home-progress-word {
+            font-size: 1.6em;
+            letter-spacing: 5px;
             margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            gap: 4px;
         }
 
-        .stage-item {
-            aspect-ratio: 1;
-            background: #e0e0e0;
-            border-radius: 10px;
+        .home-progress-word span {
+            width: 34px;
+            height: 44px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .home-progress-word span.unlocked {
+            background: linear-gradient(135deg, #00d4ff, #0099cc);
+            color: #000;
+            box-shadow: 0 0 15px rgba(0,212,255,0.5);
+        }
+
+        .worlds-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        /* Planeta */
+.planet {
+    aspect-ratio: 1;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    background: transparent;
+}
+
+.planet:hover:not(.locked) {
+    transform: scale(1.15);
+}
+
+/* Emoji = O planeta em si */
+.planet-icon {
+    font-size: 7em !important;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    filter: drop-shadow(0 0 15px rgba(255,255,255,0.5));
+    z-index: 1;
+}
+
+/* Letra centralizada sobre o emoji */
+.planet-letter {
+    font-size: 2em !important;
+    font-weight: bold;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.9), 0 0 15px rgba(0,0,0,0.7);
+    z-index: 2;
+    position: relative;
+    margin-top: 15px;
+}
+
+.planet-number {
+    font-size: 0.7em !important;
+    color: white;
+    text-align: center;
+    line-height: 1.2;
+    width: 80px;
+    word-wrap: break-word;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.9), 0 0 10px rgba(0,0,0,0.7);
+    z-index: 2;
+    position: relative;
+}
+
+/* Locked - esmaecido */
+.planet.locked {
+    opacity: 0.3;
+    cursor: not-allowed;
+    filter: grayscale(0.7);
+}
+
+.planet.locked:hover {
+    transform: none;
+}
+
+/* Completed - brilho verde */
+.planet.completed .planet-icon {
+    filter: drop-shadow(0 0 20px rgba(0, 200, 83, 0.7));
+}
+
+.planet.completed::after {
+    content: '✓';
+    position: absolute;
+    top: 0px;
+    right: 5px;
+    width: 22px;
+    height: 22px;
+    background: #00c853;
+    border-radius: 50%;
+    font-size: 0.7em;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+    z-index: 3;
+}
+
+/* Current - pulsando */
+.planet.current .planet-icon {
+    animation: planetGlow 2s ease-in-out infinite;
+}
+
+@keyframes planetGlow {
+    0%, 100% { filter: drop-shadow(0 0 15px rgba(255,255,255,0.5)); }
+    50% { filter: drop-shadow(0 0 30px rgba(255,255,255,0.9)); }
+}
+
+/* Remove backgrounds coloridos antigos */
+.planet.world-1, .planet.world-2, .planet.world-3,
+.planet.world-4, .planet.world-5, .planet.world-6,
+.planet.world-7, .planet.world-8, .planet.world-9 {
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+        .reset-container { text-align: center; margin-top: 25px; }
+        .btn-reset {
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 20px;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.85em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-reset:hover { background: rgba(255,82,82,0.3); border-color: #ff5252; color: white; }
+
+        /* MAP VIEW */
+        .map-view { display: none; }
+        .map-view.active { display: block; }
+
+        .container { max-width: 400px; margin: 0 auto; }
+
+        header { text-align: center; color: white; margin-bottom: 20px; }
+        header h1 { font-size: 1.6em; margin-bottom: 5px; }
+
+        .progress-word {
+            font-size: 1.4em;
+            letter-spacing: 4px;
+            margin: 15px 0;
+            display: flex;
+            justify-content: center;
+            gap: 3px;
+        }
+
+        .progress-word span {
+            width: 30px;
+            height: 38px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .progress-word span.unlocked {
+            background: linear-gradient(135deg, #00d4ff, #0099cc);
+            color: #000;
+        }
+
+        .map-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 80px;
+        }
+
+        .path-line { width: 4px; height: 45px; background: rgba(255,255,255,0.3); }
+        .path-line.dark { background: rgba(255,100,100,0.4); }
+        .path-line.boss { background: linear-gradient(180deg, #ffd700, #ff6b4a); height: 60px; }
+
+        .stage {
+            width: 80px;
+            height: 80px;
+            border-radius: 16px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -199,935 +243,1139 @@
             position: relative;
         }
 
-        .stage-item.unlocked {
-            background: #00d4ff;
-            color: white;
-        }
+        .stage:hover:not(.locked) { transform: scale(1.1); }
+        .stage-icon { font-size: 1.6em; margin-bottom: 2px; }
+        .stage-num { font-weight: bold; font-size: 0.9em; }
 
-        .stage-item.completed {
+        .stage.light { background: linear-gradient(135deg, #00d4ff, #0099cc); color: white; border: 3px solid #00e5ff; }
+        .stage.light.completed { background: linear-gradient(135deg, #00c853, #00e676); border-color: #69f0ae; }
+        .stage.light.locked { background: linear-gradient(135deg, #546e7a, #37474f); border-color: #78909c; opacity: 0.5; cursor: not-allowed; }
+
+        .stage.dark { background: linear-gradient(135deg, #ff416c, #ff4b2b); color: white; border: 3px solid #ff6b6b; }
+        .stage.dark.completed { background: linear-gradient(135deg, #00c853, #00e676); border-color: #69f0ae; }
+        .stage.dark.locked { background: linear-gradient(135deg, #4a1a1a, #2d1a1a); border-color: #6b3a3a; opacity: 0.5; cursor: not-allowed; }
+
+        .stage.boss { width: 100px; height: 100px; background: linear-gradient(135deg, #ffd700, #ff8c00); color: #1a1a2e; border: 4px solid #ffea00; }
+        .stage.boss.locked { background: linear-gradient(135deg, #5d4e37, #3d3327); border-color: #7d6e57; opacity: 0.5; cursor: not-allowed; }
+        .stage.boss .stage-icon { font-size: 2em; }
+
+        .stage.completed::after {
+            content: '✓';
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            width: 22px;
+            height: 22px;
             background: #00c853;
+            border-radius: 50%;
+            font-size: 0.75em;
             color: white;
-        }
-
-        .stage-item.boss {
-            background: linear-gradient(135deg, #ff5252 0%, #ff1744 100%);
-            color: white;
-            font-weight: bold;
-        }
-
-        .stage-item:not(.locked):hover {
-            transform: scale(1.1);
-        }
-
-        .stage-item.locked {
-            cursor: not-allowed;
-            opacity: 0.4;
-        }
-
-        .question-area {
-            margin: 20px 0;
-        }
-
-        .question-text {
-            font-size: 1.1em;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            padding: 15px;
-            background: #f5f5f5;
-            border-radius: 10px;
-        }
-
-        .question-context {
-            font-style: italic;
-            color: #666;
-            margin-bottom: 15px;
-        }
-
-        .options {
             display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .option {
-            padding: 15px;
-            background: #f5f5f5;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .option:hover {
-            border-color: #667eea;
-            background: #e8eaf6;
-        }
-
-        .option.selected {
-            border-color: #00d4ff;
-            background: #e1f5fe;
-        }
-
-        .option.correct {
-            border-color: #00c853;
-            background: #e8f5e9;
-        }
-
-        .option.incorrect {
-            border-color: #ff5252;
-            background: #ffebee;
-        }
-
-        .fill-blank {
-            background: #f5f5f5;
-            padding: 20px;
-            border-radius: 10px;
-            font-family: 'Courier New', monospace;
-            font-size: 1.1em;
-            line-height: 2;
-        }
-
-        .fill-blank input {
-            font-family: 'Courier New', monospace;
-            padding: 5px 10px;
-            border: 2px solid #667eea;
-            border-radius: 5px;
-            font-size: 1em;
-            width: 150px;
-            text-align: center;
-        }
-
-        .fill-blank input.correct {
-            border-color: #00c853;
-            background: #e8f5e9;
-        }
-
-        .fill-blank input.incorrect {
-            border-color: #ff5252;
-            background: #ffebee;
-        }
-
-        .hint-text {
-            font-size: 0.85em;
-            color: #ff5252;
-            margin-top: 5px;
-        }
-
-        .draggable-area {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin: 20px 0;
-        }
-
-        .drag-item {
-            padding: 15px;
-            background: #00d4ff;
-            color: white;
-            border-radius: 8px;
-            cursor: move;
-            user-select: none;
-            font-family: 'Courier New', monospace;
-            transition: all 0.2s;
-        }
-
-        .drag-item:hover {
-            transform: scale(1.02);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-
-        .drag-item.dragging {
-            opacity: 0.5;
-        }
-
-        .match-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin: 20px 0;
-        }
-
-        .match-column {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .match-item {
-            padding: 15px;
-            background: #f5f5f5;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: center;
-        }
-
-        .match-item.selected {
-            border-color: #00d4ff;
-            background: #e1f5fe;
-        }
-
-        .match-item.matched {
-            border-color: #00c853;
-            background: #e8f5e9;
-            cursor: default;
-        }
-
-        .match-item.wrong {
-            border-color: #ff5252;
-            background: #ffebee;
-        }
-
-        .feedback {
-            margin: 20px 0;
-            padding: 15px;
-            border-radius: 10px;
-            display: none;
-            white-space: pre-line;
-        }
-
-        .feedback.show {
-            display: block;
-        }
-
-        .feedback.correct {
-            background: #e8f5e9;
-            border-left: 4px solid #00c853;
-            color: #1b5e20;
-        }
-
-        .feedback.incorrect {
-            background: #ffebee;
-            border-left: 4px solid #ff5252;
-            color: #b71c1c;
-        }
-
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 10px;
-            font-size: 1em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin: 5px;
-        }
-
-        .btn-primary {
-            background: #667eea;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #5568d3;
-        }
-
-        .btn-success {
-            background: #00c853;
-            color: white;
-        }
-
-        .btn-secondary {
-            background: #e0e0e0;
-            color: #333;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
+            align-items: center;
             justify-content: center;
-            flex-wrap: wrap;
+            border: 2px solid white;
         }
 
-        .boss-banner {
-            background: linear-gradient(135deg, #ff5252 0%, #ff1744 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
+        .dark-side-divider {
+            width: 100%;
+            max-width: 250px;
+            padding: 10px 15px;
+            margin: 12px 0;
+            background: linear-gradient(90deg, transparent, #ff416c, #ff4b2b, #ff416c, transparent);
+            border-radius: 8px;
             text-align: center;
-            margin-bottom: 20px;
-            font-size: 1.3em;
+            color: white;
             font-weight: bold;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: darkPulse 3s infinite;
+        }
+        .dark-side-divider::before, .dark-side-divider::after { content: '⚡'; margin: 0 6px; }
+        @keyframes darkPulse { 0%, 100% { box-shadow: 0 0 20px rgba(255,65,108,0.5); } 50% { box-shadow: 0 0 40px rgba(255,65,108,0.8); } }
+
+        .start-badge {
+            padding: 8px 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 20px;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9em;
         }
 
-        @media (max-width: 768px) {
-            .world-map {
-                grid-template-columns: repeat(2, 1fr);
-            }
+        .progress-indicator {
+            position: fixed;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.85);
+            padding: 8px 18px;
+            border-radius: 20px;
+            color: white;
+            font-size: 0.8em;
+            z-index: 100;
+        }
 
-            header h1 {
-                font-size: 1.8em;
-            }
+        code { background: #e8e8e8; padding: 2px 5px; border-radius: 3px; font-family: 'Courier New', monospace; color: #d63384; font-size: 0.85em; }
 
-            .progress-word {
-                font-size: 1.5em;
-                letter-spacing: 5px;
-            }
+        /* MODAL */
+        .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 1000; padding: 15px; }
+        .modal.show { display: flex; }
 
-            .match-container {
-                grid-template-columns: 1fr;
-            }
+        .modal-content {
+            background: white;
+            border-radius: 18px;
+            padding: 22px;
+            max-width: 480px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideUp 0.3s ease;
+        }
+
+        .modal-content.dark-mode { background: linear-gradient(135deg, #1a1a2e, #2d1a3e); color: white; border: 2px solid #ff416c; }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
+
+        .modal-close { position: absolute; top: 12px; right: 15px; font-size: 1.3em; cursor: pointer; color: #999; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+        .modal-close:hover { background: #fee; color: #ff416c; }
+        .modal-content.dark-mode .modal-close { color: #ff6b6b; }
+
+        .modal-header { text-align: center; margin-bottom: 18px; }
+        .modal-header h2 { color: #667eea; font-size: 1.3em; margin-bottom: 4px; }
+        .modal-content.dark-mode .modal-header h2 { color: #ff6b6b; }
+        .modal-header .subtitle { color: #666; font-size: 0.85em; }
+        .modal-content.dark-mode .modal-header .subtitle { color: #aaa; }
+
+        .intro-card { background: linear-gradient(135deg, #f8f9ff, #e8ecff); padding: 18px; border-radius: 10px; margin-bottom: 18px; border-left: 4px solid #667eea; }
+        .intro-card h3 { color: #667eea; margin-bottom: 8px; font-size: 1em; }
+        .intro-card p { line-height: 1.5; color: #444; font-size: 0.9em; margin-bottom: 10px; }
+        .intro-card pre { background: #1a1a2e; color: #f8f8f2; padding: 12px; border-radius: 8px; font-size: 0.8em; line-height: 1.4; white-space: pre-wrap; overflow-x: auto; }
+
+        .question-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 8px 10px; background: #f5f5f5; border-radius: 6px; }
+        .modal-content.dark-mode .question-header { background: rgba(255,255,255,0.1); }
+        .question-type { background: #667eea; color: white; padding: 4px 10px; border-radius: 12px; font-size: 0.75em; font-weight: 600; }
+        .modal-content.dark-mode .question-type { background: #ff416c; }
+        .attempt-counter { color: #666; font-size: 0.8em; }
+        .modal-content.dark-mode .attempt-counter { color: #aaa; }
+
+        .question-context { color: #444; margin-bottom: 12px; padding: 12px; background: linear-gradient(135deg, #fff9e6, #fff3cd); border-radius: 8px; border-left: 3px solid #ffc107; line-height: 1.4; font-size: 0.9em; }
+        .modal-content.dark-mode .question-context { background: rgba(255,193,7,0.15); color: #ffd54f; border-color: #ff9800; }
+
+        .question-code { background: #1a1a2e; color: #f8f8f2; padding: 12px; border-radius: 8px; margin-bottom: 12px; font-family: 'Courier New', monospace; line-height: 1.5; font-size: 0.85em; white-space: pre-wrap; }
+
+        .question-text { font-size: 0.95em; line-height: 1.4; margin-bottom: 12px; padding: 12px; background: linear-gradient(135deg, #f0f4ff, #e4e9ff); border-radius: 8px; border: 2px solid #667eea; }
+        .modal-content.dark-mode .question-text { background: rgba(255,65,108,0.1); border-color: #ff416c; }
+
+        .options { display: flex; flex-direction: column; gap: 8px; }
+        .option { padding: 12px 14px; background: white; border: 2px solid #e0e0e0; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: all 0.2s; }
+        .modal-content.dark-mode .option { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.2); }
+        .option-letter { width: 28px; height: 28px; background: #f0f0f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #667eea; font-size: 0.85em; }
+        .modal-content.dark-mode .option-letter { background: rgba(255,65,108,0.3); color: white; }
+        .option:hover:not(.disabled) { border-color: #667eea; background: #f8f9ff; }
+        .option.selected { border-color: #00d4ff; background: #e6f9ff; }
+        .option.selected .option-letter { background: #00d4ff; color: white; }
+        .option.correct { border-color: #00c853; background: #e8f5e9; }
+        .option.correct .option-letter { background: #00c853; color: white; }
+        .option.incorrect { border-color: #ff5252; background: #ffebee; }
+        .option.disabled { pointer-events: none; }
+
+        .fill-blank { background: #1a1a2e; color: #f8f8f2; padding: 18px; border-radius: 10px; font-family: 'Courier New', monospace; font-size: 0.85em; line-height: 2; white-space: pre-wrap; }
+        .fill-blank input { font-family: 'Courier New', monospace; padding: 5px 8px; border: 2px solid #00d4ff; border-radius: 4px; font-size: 0.85em; width: 110px; text-align: center; background: rgba(255,255,255,0.95); }
+        .fill-blank input:focus { outline: none; box-shadow: 0 0 0 2px rgba(0,212,255,0.3); }
+        .fill-blank input.correct { border-color: #00c853; background: #c8e6c9; }
+        .fill-blank input.incorrect { border-color: #ff5252; background: #ffcdd2; }
+
+        .draggable-area { display: flex; flex-direction: column; gap: 6px; padding: 12px; background: #f5f5f5; border-radius: 10px; border: 2px dashed #ccc; min-height: 150px; }
+        .modal-content.dark-mode .draggable-area { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.3); }
+        .drag-item { padding: 12px 14px; background: linear-gradient(135deg, #667eea, #5a67d8); color: white; border-radius: 6px; cursor: grab; font-family: 'Courier New', monospace; font-size: 0.85em; display: flex; align-items: center; gap: 8px; }
+        .modal-content.dark-mode .drag-item { background: linear-gradient(135deg, #ff416c, #ff4b2b); }
+        .drag-item::before { content: '⋮⋮'; opacity: 0.6; }
+        .drag-item.dragging { opacity: 0.5; }
+
+        .match-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .match-column { display: flex; flex-direction: column; gap: 6px; }
+        .match-column-title { text-align: center; font-weight: 600; color: #667eea; margin-bottom: 4px; padding: 5px; background: #f0f4ff; border-radius: 5px; font-size: 0.8em; }
+        .modal-content.dark-mode .match-column-title { background: rgba(255,65,108,0.2); color: #ff6b6b; }
+        .match-item { padding: 10px 12px; background: white; border: 2px solid #e0e0e0; border-radius: 6px; cursor: pointer; text-align: center; font-family: 'Courier New', monospace; font-size: 0.85em; transition: all 0.2s; }
+        .modal-content.dark-mode .match-item { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.2); }
+        .match-item:hover:not(.matched) { border-color: #667eea; }
+        .match-item.selected { border-color: #00d4ff; background: #e6f9ff; transform: scale(1.02); }
+        .match-item.matched { border-color: #00c853; background: #e8f5e9; cursor: default; }
+        .match-item.wrong { border-color: #ff5252; background: #ffebee; animation: shake 0.3s; }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+
+        .feedback { margin: 15px 0; padding: 12px; border-radius: 8px; display: none; line-height: 1.5; font-size: 0.9em; }
+        .feedback.show { display: block; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .feedback.correct { background: linear-gradient(135deg, #e8f5e9, #c8e6c9); border-left: 4px solid #00c853; color: #1b5e20; }
+        .feedback.incorrect { background: linear-gradient(135deg, #ffebee, #ffcdd2); border-left: 4px solid #ff5252; color: #b71c1c; }
+        .modal-content.dark-mode .feedback.incorrect { background: rgba(255,82,82,0.2); color: #ff8a80; }
+
+        .btn { padding: 10px 20px; border: none; border-radius: 8px; font-size: 0.9em; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 5px; }
+        .btn:hover { transform: translateY(-2px); }
+        .btn-primary { background: linear-gradient(135deg, #667eea, #5a67d8); color: white; }
+        .btn-success { background: linear-gradient(135deg, #00c853, #00e676); color: white; }
+        .btn-secondary { background: #e0e0e0; color: #333; }
+        .btn-danger { background: linear-gradient(135deg, #ff5252, #ff1744); color: white; }
+        .action-buttons { display: flex; gap: 8px; margin-top: 18px; justify-content: center; flex-wrap: wrap; }
+
+        .boss-banner { background: linear-gradient(135deg, #ff416c, #ff4b2b); color: white; padding: 18px; border-radius: 10px; text-align: center; margin-bottom: 18px; }
+        .boss-banner h2 { font-size: 1.2em; margin-bottom: 6px; }
+        .boss-banner p { opacity: 0.9; font-size: 0.85em; }
+        .boss-progress { background: rgba(255,255,255,0.2); border-radius: 12px; padding: 10px 12px; margin: 12px 0; display: flex; justify-content: space-between; align-items: center; font-size: 0.85em; }
+        .boss-progress-bar { flex: 1; height: 6px; background: rgba(255,255,255,0.3); border-radius: 3px; margin: 0 10px; overflow: hidden; }
+        .boss-progress-fill { height: 100%; background: white; transition: width 0.3s; }
+
+        .results-card { text-align: center; }
+        .results-score { font-size: 3em; font-weight: bold; margin: 12px 0; }
+        .results-score.pass { color: #00c853; }
+        .results-score.fail { color: #ff5252; }
+        .results-details { text-align: left; margin: 18px 0; max-height: 280px; overflow-y: auto; }
+        .result-item { padding: 10px; margin-bottom: 6px; border-radius: 6px; border-left: 3px solid; font-size: 0.85em; }
+        .result-item.correct { background: #e8f5e9; border-color: #00c853; }
+        .result-item.incorrect { background: #ffebee; border-color: #ff5252; }
+        .result-item .explanation { font-size: 0.85em; color: #555; margin-top: 5px; }
+
+        /* TRANSIÇÕES */
+        .dark-transition, .boss-transition, .victory-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 3000;
+        }
+        .dark-transition.show, .boss-transition.show, .victory-overlay.show { display: flex; }
+
+        .dark-transition { background: radial-gradient(circle, #1a0a0a, #000); }
+        .dark-transition .skull { font-size: 6em; animation: skullAppear 1.2s ease forwards; filter: drop-shadow(0 0 25px #ff416c); }
+        @keyframes skullAppear { 0% { transform: scale(0) rotate(-180deg); opacity: 0; } 50% { transform: scale(1.2) rotate(10deg); opacity: 1; } 100% { transform: scale(1) rotate(0); } }
+        .dark-transition .title { color: #ff416c; font-size: 1.8em; font-weight: bold; text-transform: uppercase; letter-spacing: 6px; margin-top: 15px; opacity: 0; animation: titleAppear 0.8s ease 0.7s forwards; text-shadow: 0 0 20px #ff416c; }
+        @keyframes titleAppear { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .dark-transition .subtitle { color: #ff6b6b; font-size: 0.95em; margin-top: 8px; opacity: 0; animation: titleAppear 0.8s ease 1s forwards; }
+        .dark-transition .enter-btn, .boss-transition .challenge-btn {
+            margin-top: 35px;
+            padding: 14px 35px;
+            border-radius: 40px;
+            color: white;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            opacity: 0;
+            animation: btnAppear 0.6s ease 1.5s forwards;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: none;
+        }
+        .dark-transition .enter-btn { background: linear-gradient(135deg, #ff416c, #ff4b2b); box-shadow: 0 0 25px rgba(255,65,108,0.5); }
+        .dark-transition .enter-btn:hover { transform: scale(1.08); box-shadow: 0 0 40px rgba(255,65,108,0.7); }
+        @keyframes btnAppear { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .dark-transition .flames { position: absolute; bottom: 0; width: 100%; display: flex; justify-content: center; gap: 3px; }
+        .dark-transition .flame { font-size: 2.5em; animation: flameFlicker 0.3s ease infinite alternate; }
+        .dark-transition .flame:nth-child(odd) { animation-delay: 0.15s; }
+        @keyframes flameFlicker { from { transform: scaleY(1); } to { transform: scaleY(1.15) translateY(-5px); } }
+        .dark-transition .smoke { position: absolute; font-size: 2.5em; opacity: 0; animation: smokeRise 1.8s ease forwards; }
+        .dark-transition .smoke:nth-child(1) { left: 25%; animation-delay: 0.1s; }
+        .dark-transition .smoke:nth-child(2) { left: 40%; animation-delay: 0.2s; }
+        .dark-transition .smoke:nth-child(3) { left: 55%; animation-delay: 0.3s; }
+        .dark-transition .smoke:nth-child(4) { left: 70%; animation-delay: 0.4s; }
+        .dark-transition .smoke:nth-child(5) { left: 35%; animation-delay: 0.5s; }
+        @keyframes smokeRise { 0% { transform: translateY(80px) scale(0.5); opacity: 0; } 50% { opacity: 0.5; } 100% { transform: translateY(-120px) scale(1.3); opacity: 0; } }
+
+        .boss-transition { background: radial-gradient(circle, #2a1a00, #000); }
+        .boss-transition .crown { font-size: 8em; animation: crownAppear 1.5s ease forwards; filter: drop-shadow(0 0 30px #ffd700); }
+        @keyframes crownAppear { 0% { transform: translateY(-150px) scale(0) rotate(-30deg); opacity: 0; } 60% { transform: translateY(15px) scale(1.15) rotate(5deg); opacity: 1; } 100% { transform: translateY(0) scale(1) rotate(0); } }
+        .boss-transition .boss-title { color: #ffd700; font-size: 2em; font-weight: bold; text-transform: uppercase; letter-spacing: 8px; margin-top: 15px; opacity: 0; animation: titleAppear 0.8s ease 0.8s forwards; text-shadow: 0 0 20px #ffd700, 0 0 40px #ff8c00; }
+        .boss-transition .boss-subtitle { color: #ffb347; font-size: 1em; margin-top: 10px; opacity: 0; animation: titleAppear 0.8s ease 1.2s forwards; }
+        .boss-transition .challenge-btn { background: linear-gradient(135deg, #ffd700, #ff8c00); color: #1a1a2e; box-shadow: 0 0 30px rgba(255,215,0,0.5); }
+        .boss-transition .challenge-btn:hover { transform: scale(1.08); box-shadow: 0 0 50px rgba(255,215,0,0.7); }
+        .boss-transition .lightning { position: absolute; font-size: 4em; opacity: 0; }
+        .boss-transition .lightning:nth-child(1) { top: 10%; left: 10%; animation: lightningFlash 0.25s ease 0.3s forwards; }
+        .boss-transition .lightning:nth-child(2) { top: 15%; right: 15%; animation: lightningFlash 0.25s ease 0.5s forwards; }
+        .boss-transition .lightning:nth-child(3) { top: 5%; left: 45%; animation: lightningFlash 0.25s ease 0.7s forwards; }
+        .boss-transition .lightning:nth-child(4) { top: 20%; right: 25%; animation: lightningFlash 0.25s ease 0.9s forwards; }
+        @keyframes lightningFlash { 0% { opacity: 0; transform: scale(0.5); } 50% { opacity: 1; transform: scale(1.2); } 100% { opacity: 0; transform: scale(1); } }
+        .boss-transition .sparks { position: absolute; width: 100%; height: 100%; pointer-events: none; }
+        .boss-transition .spark { position: absolute; font-size: 1.2em; opacity: 0; animation: sparkFall 2.5s linear infinite; }
+        .boss-transition .spark:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .boss-transition .spark:nth-child(2) { left: 25%; animation-delay: 0.3s; }
+        .boss-transition .spark:nth-child(3) { left: 40%; animation-delay: 0.6s; }
+        .boss-transition .spark:nth-child(4) { left: 55%; animation-delay: 0.2s; }
+        .boss-transition .spark:nth-child(5) { left: 70%; animation-delay: 0.8s; }
+        .boss-transition .spark:nth-child(6) { left: 85%; animation-delay: 0.4s; }
+        @keyframes sparkFall { 0% { transform: translateY(-40px) rotate(0); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(100vh) rotate(600deg); opacity: 0; } }
+        .boss-transition .ground-glow { position: absolute; bottom: 0; width: 100%; height: 150px; background: linear-gradient(to top, rgba(255,215,0,0.25), transparent); animation: glowPulse 2s ease infinite; }
+        @keyframes glowPulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+        .victory-overlay { background: radial-gradient(circle, #0a1a2e, #000); }
+        .victory-overlay .big-letter { font-size: 10em; font-weight: bold; color: #00d4ff; text-shadow: 0 0 50px #00d4ff, 0 0 100px #0099cc; animation: victoryLetter 1.2s ease forwards; }
+        @keyframes victoryLetter { 0% { transform: scale(0) rotate(-180deg); opacity: 0; } 50% { transform: scale(1.2) rotate(10deg); } 100% { transform: scale(1) rotate(0); opacity: 1; } }
+        .victory-overlay .victory-title { color: #ffd700; font-size: 1.8em; font-weight: bold; text-transform: uppercase; letter-spacing: 5px; margin-top: 15px; opacity: 0; animation: titleAppear 0.8s ease 0.8s forwards; text-shadow: 0 0 20px #ffd700; }
+        .victory-overlay .victory-sub { color: rgba(255,255,255,0.8); font-size: 1em; margin-top: 10px; opacity: 0; animation: titleAppear 0.8s ease 1.1s forwards; }
+        .victory-overlay .continue-btn { margin-top: 40px; padding: 14px 40px; background: linear-gradient(135deg, #00d4ff, #0099cc); border: none; border-radius: 40px; color: white; font-size: 1.1em; font-weight: bold; cursor: pointer; opacity: 0; animation: btnAppear 0.6s ease 1.6s forwards; box-shadow: 0 0 30px rgba(0,212,255,0.5); transition: all 0.3s; }
+        .victory-overlay .continue-btn:hover { transform: scale(1.08); box-shadow: 0 0 50px rgba(0,212,255,0.7); }
+        .confetti { position: fixed; width: 8px; height: 8px; border-radius: 50%; animation: confettiFall 2.5s linear forwards; z-index: 3001; }
+        @keyframes confettiFall { 0% { transform: translateY(-100vh) rotate(0); opacity: 1; } 100% { transform: translateY(100vh) rotate(600deg); opacity: 0; } }
+
+        @media (max-width: 400px) {
+            .home-header h1 { font-size: 1.5em; }
+            .worlds-grid { gap: 10px; }
+            .planet-letter { font-size: 1.4em; }
+            .stage { width: 70px; height: 70px; }
+            .stage.boss { width: 85px; height: 85px; }
+        }
+    .planet-icon {
+            font-size: 3em;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5));
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🎮 Algoritmo Quest</h1>
-            <p>Domine a lógica de programação jogando!</p>
-            <div class="progress-word" id="progressWord"></div>
-            <button class="btn btn-secondary" onclick="resetProgress()" style="margin-top: 15px;">🔄 Resetar Progresso</button>
-        </header>
+    <!-- HOME VIEW -->
+    <div id="homeView">
+        <div class="home-container">
+            <header class="home-header">
+                <h1>🎮 Algoritmo Quest</h1>
+                <p>Domine a lógica de programação!</p>
+                <div class="home-progress-word" id="homeProgressWord"></div>
+            </header>
 
-        <div class="world-map" id="worldMap"></div>
+            <div class="worlds-grid" id="worldsGrid"></div>
+            
+            <div class="reset-container">
+                <button class="btn-reset" onclick="resetProgress()">🔄 Resetar Progresso</button>
+            </div>
+        </div>
     </div>
 
-    <div class="modal" id="worldModal">
-        <div class="modal-content">
+    <!-- MAP VIEW -->
+    <div class="map-view" id="mapView">
+        <div class="container">
+            <header>
+                <button class="btn btn-secondary" onclick="goToHome()" style="margin-bottom: 12px;">← Voltar</button>
+                <h1 id="mapTitle">🎮 Mundo 1</h1>
+                <p id="mapSubtitle" style="color: rgba(255,255,255,0.8);">Variáveis e Tipos</p>
+                <div class="progress-word" id="progressWord"></div>
+            </header>
+            <div class="map-container" id="mapContainer"></div>
+            <div class="progress-indicator" id="progressIndicator">📊 0/10 casas</div>
+        </div>
+    </div>
+
+    <!-- MODAL -->
+    <div class="modal" id="gameModal">
+        <div class="modal-content" id="modalContent">
+            <span class="modal-close" onclick="closeModal()">✕</span>
             <div class="modal-header">
                 <h2 id="modalTitle"></h2>
+                <p class="subtitle" id="modalSubtitle"></p>
             </div>
             <div id="modalBody"></div>
         </div>
     </div>
 
-    <script>
-        const WORLDS = [
-            {
-                id: 1,
-                title: "Variáveis e Tipos",
-                letter: "A",
-                intro: {
-                    title: "Variáveis e Tipos de Dados",
-                    description: "Variáveis guardam informações na memória. Cada uma tem um nome e um tipo (texto, número inteiro, número decimal, verdadeiro/falso).",
-                    example: `usuario ← "Maria"\nsaldo ← 150.00\nativo ← verdadeiro`
-                },
-                stages: [
-                    {
-                        type: "fill",
-                        context: "Complete o código criando variáveis de um cadastro de cliente:",
-                        template: "nome ← {0}\nidade ← {1}\nfidelidade ← {2}",
-                        blanks: [
-                            { 
-                                validate: (v) => /^["'].*["']$/.test(v) && v.length > 2,
-                                placeholder: "texto",
-                                errorHint: "Textos devem estar entre aspas! Ex: \"Maria\""
-                            },
-                            { 
-                                validate: (v) => /^\d+$/.test(v),
-                                placeholder: "número",
-                                errorHint: "Digite apenas números, sem aspas. Ex: 25"
-                            },
-                            { 
-                                validate: (v) => ["verdadeiro", "falso", "true", "false"].includes(v.toLowerCase()),
-                                placeholder: "booleano",
-                                errorHint: "Use apenas: verdadeiro ou falso"
-                            }
-                        ],
-                        successMessage: "🎉 Parabéns! Cada tipo de dado tem sua forma:\n\n• Strings (textos) vão entre aspas: \"texto\"\n• Números são digitados livremente: 42\n• Booleanos só podem ser: verdadeiro ou falso"
-                    },
-                    {
-                        type: "multiple",
-                        context: "Analise o código:",
-                        code: "a ← 5\nb ← a\na ← 10",
-                        question: "Qual o valor de 'b' no final?",
-                        options: ["5", "10", "15", "Erro"],
-                        correct: 0,
-                        explanation: "Quando 'b' recebeu 'a', o valor de 'a' era 5. Alterar 'a' depois não muda 'b'.",
-                        successMessage: "🎉 Exato! Variáveis guardam valores, não referências. Quando você faz b ← a, o valor é copiado."
-                    },
-                    {
-                        type: "drag",
-                        context: "Um sistema precisa criar variáveis para um restaurante. Ordene as linhas de forma lógica:",
-                        question: "Arraste para ordenar (nome → nota → status):",
-                        items: [
-                            'nome ← "Pizzaria Bella"',
-                            'nota ← 4.5',
-                            'aberto ← verdadeiro'
-                        ],
-                        correctOrder: [0, 1, 2],
-                        successMessage: "🎉 Muito bem! Organizar variáveis de forma lógica facilita a leitura do código."
-                    },
-                    {
-                        type: "match",
-                        context: "Cada tipo de dado tem exemplos específicos:",
-                        question: "Associe o tipo com o valor correspondente:",
-                        pairs: [
-                            { left: "Inteiro", right: "42" },
-                            { left: "Real", right: "3.14" },
-                            { left: "Texto", right: '"Olá"' },
-                            { left: "Booleano", right: "verdadeiro" }
-                        ],
-                        successMessage: "🎉 Perfeito! Reconhecer tipos de dados é essencial:\n\n• Inteiro: números sem decimal\n• Real: números com decimal\n• Texto: sempre entre aspas\n• Booleano: verdadeiro/falso"
-                    },
-                    {
-                        type: "fill",
-                        context: "Complete as variáveis para um sistema de academia:",
-                        template: "aluno ← {0}\npeso ← {1}\naltura ← {2}\nativo ← {3}",
-                        blanks: [
-                            { 
-                                validate: (v) => /^["'].*["']$/.test(v) && v.length > 2,
-                                placeholder: "texto",
-                                errorHint: "Nome do aluno entre aspas!"
-                            },
-                            { 
-                                validate: (v) => /^\d+(\.\d+)?$/.test(v),
-                                placeholder: "número",
-                                errorHint: "Peso em kg (número). Ex: 75 ou 75.5"
-                            },
-                            { 
-                                validate: (v) => /^\d+\.\d+$/.test(v),
-                                placeholder: "decimal",
-                                errorHint: "Altura em metros (decimal). Ex: 1.75"
-                            },
-                            { 
-                                validate: (v) => ["verdadeiro", "falso", "true", "false"].includes(v.toLowerCase()),
-                                placeholder: "booleano",
-                                errorHint: "Status: verdadeiro ou falso"
-                            }
-                        ],
-                        successMessage: "🎉 Excelente! Você dominou os tipos de dados:\n\n• Texto (string): \"nome\"\n• Número inteiro: 75\n• Número decimal: 1.75\n• Booleano: verdadeiro/falso\n\nPronto para o Boss!"
-                    }
-                ]
-            },
-            {
-                id: 2,
-                title: "Entrada e Saída",
-                letter: "L",
-                intro: {
-                    title: "Entrada e Saída de Dados",
-                    description: "Programas precisam receber dados do usuário (entrada) e mostrar resultados (saída).",
-                    example: `nome ← ler()\nescrever("Olá, " + nome)`
-                },
-                stages: []
-            },
-            {
-                id: 3,
-                title: "Operadores",
-                letter: "G",
-                intro: {
-                    title: "Operadores",
-                    description: "Operadores permitem fazer cálculos, comparações e combinações lógicas.",
-                    example: `soma ← 5 + 3\nmaior ← (a > b)\nambos ← (x E y)`
-                },
-                stages: []
-            },
-            {
-                id: 4,
-                title: "Decisão (if/else)",
-                letter: "O",
-                intro: {
-                    title: "Estruturas de Decisão",
-                    description: "Permitem que o programa tome caminhos diferentes baseado em condições.",
-                    example: `SE idade >= 18 ENTÃO\n    escrever("Maior de idade")\nSENÃO\n    escrever("Menor de idade")`
-                },
-                stages: []
-            },
-            {
-                id: 5,
-                title: "Decisão Múltipla",
-                letter: "R",
-                intro: {
-                    title: "Decisão Múltipla",
-                    description: "Quando há várias opções possíveis, usamos estruturas de múltipla escolha.",
-                    example: `ESCOLHA opcao\n    CASO 1: escrever("Um")\n    CASO 2: escrever("Dois")\n    SENÃO: escrever("Outro")`
-                },
-                stages: []
-            },
-            {
-                id: 6,
-                title: "Repetição (for)",
-                letter: "I",
-                intro: {
-                    title: "Repetição com Contador",
-                    description: "Quando sabemos quantas vezes repetir, usamos o laço PARA.",
-                    example: `PARA i DE 1 ATÉ 10 FAÇA\n    escrever(i)\nFIM-PARA`
-                },
-                stages: []
-            },
-            {
-                id: 7,
-                title: "Repetição (while)",
-                letter: "T",
-                intro: {
-                    title: "Repetição Condicional",
-                    description: "Quando não sabemos quantas vezes repetir, usamos ENQUANTO.",
-                    example: `ENQUANTO saldo > 0 FAÇA\n    saldo ← saldo - 10\nFIM-ENQUANTO`
-                },
-                stages: []
-            },
-            {
-                id: 8,
-                title: "Listas/Vetores",
-                letter: "M",
-                intro: {
-                    title: "Listas e Vetores",
-                    description: "Armazenam múltiplos valores em uma única variável.",
-                    example: `notas ← [7.5, 8.0, 9.5]\nescrever(notas[0])  // 7.5`
-                },
-                stages: []
-            },
-            {
-                id: 9,
-                title: "Funções",
-                letter: "O",
-                intro: {
-                    title: "Funções",
-                    description: "Blocos de código reutilizáveis que executam tarefas específicas.",
-                    example: `FUNÇÃO soma(a, b)\n    RETORNAR a + b\nFIM-FUNÇÃO\n\nresultado ← soma(5, 3)`
-                },
-                stages: []
-            }
+    <!-- DARK SIDE TRANSITION -->
+    <div class="dark-transition" id="darkTransition">
+        <div class="smoke">💨</div>
+        <div class="smoke">💨</div>
+        <div class="smoke">💨</div>
+        <div class="smoke">💨</div>
+        <div class="smoke">💨</div>
+        <div class="skull">💀</div>
+        <div class="title">Dark Side</div>
+        <div class="subtitle">A partir daqui, sem piedade.</div>
+        <button class="enter-btn" id="enterDarkBtn">⚔️ Entrar</button>
+        <div class="flames">
+            <span class="flame">🔥</span>
+            <span class="flame">🔥</span>
+            <span class="flame">🔥</span>
+            <span class="flame">🔥</span>
+            <span class="flame">🔥</span>
+            <span class="flame">🔥</span>
+            <span class="flame">🔥</span>
+        </div>
+    </div>
+
+    <!-- BOSS TRANSITION -->
+    <div class="boss-transition" id="bossTransition">
+        <div class="lightning">⚡</div>
+        <div class="lightning">⚡</div>
+        <div class="lightning">⚡</div>
+        <div class="lightning">⚡</div>
+        <div class="sparks">
+            <span class="spark">✨</span>
+            <span class="spark">✨</span>
+            <span class="spark">✨</span>
+            <span class="spark">✨</span>
+            <span class="spark">✨</span>
+            <span class="spark">✨</span>
+        </div>
+        <div class="crown">👑</div>
+        <div class="boss-title">Confronto Final</div>
+        <div class="boss-subtitle">Prove seu domínio!</div>
+        <button class="challenge-btn" id="challengeBossBtn">⚔️ Aceitar Desafio</button>
+        <div class="ground-glow"></div>
+    </div>
+
+    <!-- VICTORY OVERLAY -->
+    <div class="victory-overlay" id="victoryOverlay">
+        <div class="big-letter" id="victoryLetter">A</div>
+        <div class="victory-title">Letra Conquistada!</div>
+        <div class="victory-sub" id="victorySub">Você dominou Variáveis e Tipos!</div>
+        <button class="continue-btn" id="continueBtn" onclick="closeVictory()">🚀 Continuar</button>
+    </div>
+        <script>
+        // ==================== DADOS DOS MUNDOS ====================
+        const WORLDS_DATA = [
+            { id: 1, letter: 'A', name: 'Variáveis e Tipos', icon: '☀️', unlocked: true },
+            { id: 2, letter: 'L', name: 'Entrada e Saída', icon: '🌍', unlocked: false },
+            { id: 3, letter: 'G', name: 'Operadores', icon: '🌕', unlocked: false },
+            { id: 4, letter: 'O', name: 'Decisão SE/SENÃO', icon: '🌙', unlocked: false },
+            { id: 5, letter: 'R', name: 'Decisão Múltipla', icon: '⭐', unlocked: false },
+            { id: 6, letter: 'I', name: 'Repetição PARA', icon: '🌟', unlocked: false },
+            { id: 7, letter: 'T', name: 'Repetição ENQUANTO', icon: '🪐', unlocked: false },
+            { id: 8, letter: 'M', name: 'Vetores/Listas', icon: '☄️', unlocked: false },
+            { id: 9, letter: 'O', name: 'Funções', icon: '💫', unlocked: false }
         ];
 
-        let gameState = {
-            currentWorld: 1,
-            completedWorlds: [],
-            completedStages: {},
-            unlockedLetters: []
+        const WORLD = {
+            id: 1,
+            title: "Variáveis e Tipos",
+            letter: "A",
+            intro: {
+                title: "📦 O que são Variáveis?",
+                description: "Variáveis são <strong>espaços na memória</strong> que guardam informações. Cada variável tem um <strong>nome</strong> e armazena um <strong>tipo específico</strong> de dado.",
+                example: `// Tipos de dados principais:
+
+nome ← "Maria"       // String (texto)
+idade ← 25           // Inteiro
+altura ← 1.75        // Real (decimal)
+ativo ← verdadeiro   // Booleano`
+            },
+            stages: [
+                // CASA 1
+                {
+                    type: "fill", zone: "light",
+                    context: "Você está criando um sistema de cadastro. Complete o código com os TIPOS CORRETOS:",
+                    template: `// Cadastro de Cliente
+
+nome ← {0}
+idade ← {1}
+clienteVIP ← {2}`,
+                    blanks: [
+                        { id: 0, placeholder: "???", hint: "Como representamos texto em programação?" },
+                        { id: 1, placeholder: "???", hint: "Idade é um número. Precisa de aspas?" },
+                        { id: 2, placeholder: "???", hint: "VIP ou não - quantos estados possíveis?" }
+                    ],
+                    validate: function(answers) {
+                        const results = [];
+                        results.push({ correct: /^["'].*["']$/.test(answers[0].trim()) && answers[0].trim().length > 2, hint: "Como representamos texto em programação?" });
+                        results.push({ correct: /^\d+$/.test(answers[1].trim()), hint: "Idade é um número. Precisa de aspas?" });
+                        results.push({ correct: ["verdadeiro", "falso", "true", "false"].includes(answers[2].trim().toLowerCase()), hint: "VIP ou não - quantos estados possíveis?" });
+                        return results;
+                    },
+                    successMessage: "Excelente! Tipos básicos:\n\n• <strong>String</strong>: entre aspas\n• <strong>Inteiro</strong>: número sem decimal\n• <strong>Booleano</strong>: verdadeiro/falso"
+                },
+                // CASA 2
+                {
+                    type: "multiple", zone: "light",
+                    context: "Analise CADA LINHA e acompanhe os valores:",
+                    code: `a ← 5      // Linha 1
+b ← a      // Linha 2
+a ← 10     // Linha 3`,
+                    question: "Após executar as 3 linhas, qual é o valor de <strong>b</strong>?",
+                    options: ["5", "10", "15", "Indefinido"],
+                    correct: 0,
+                    hints: ["Acompanhe linha por linha.", "Na linha 2, qual era o valor de 'a'?", "Alterar 'a' depois afeta 'b'?"],
+                    successMessage: "Perfeito! Quando <code>b ← a</code> executou, 'a' valia 5. Mudar 'a' depois não afeta 'b'."
+                },
+                // CASA 3
+                {
+                    type: "drag", zone: "light",
+                    context: "Organize as variáveis seguindo a convenção: <strong>String → Numérico → Booleano</strong>",
+                    question: "Arraste para a ordem correta:",
+                    items: [
+                        { text: 'nota ← 4.5', correctPosition: 1 },
+                        { text: 'aberto ← verdadeiro', correctPosition: 2 },
+                        { text: 'nome ← "Pizzaria"', correctPosition: 0 }
+                    ],
+                    hints: ["Qual tem aspas? Qual é número? Qual é verdadeiro/falso?", "Strings sempre têm aspas."],
+                    successMessage: "Muito bem! Identificou os tipos:\n\n• <strong>nome</strong> → String\n• <strong>nota</strong> → Numérico\n• <strong>aberto</strong> → Booleano"
+                },
+                // CASA 4
+                {
+                    type: "match", zone: "light",
+                    context: "Analise os VALORES e identifique seus TIPOS.",
+                    question: "Conecte cada TIPO com o VALOR correspondente:",
+                    pairs: [
+                        { left: "Inteiro", right: "42", id: 0 },
+                        { left: "Real", right: "3.14", id: 1 },
+                        { left: "String", right: '"Olá"', id: 2 },
+                        { left: "Booleano", right: "falso", id: 3 }
+                    ],
+                    hints: ["Inteiros não têm decimal...", "Qual tem aspas?"],
+                    successMessage: "Excelente!\n\n• <strong>Inteiro</strong>: sem decimal\n• <strong>Real</strong>: com decimal\n• <strong>String</strong>: entre aspas\n• <strong>Booleano</strong>: verdadeiro/falso"
+                },
+                // CASA 5
+                {
+                    type: "fill", zone: "light",
+                    context: "Sistema de academia. Preencha com valores válidos para cada <strong>tipo especificado</strong>:",
+                    template: `// Ficha do Aluno
+
+nomeAluno ← {0}     
+idade ← {1}         
+pesoKg ← {2}        
+alturaM ← {3}       
+ativo ← {4}         `,
+                    blanks: [
+                        { id: 0, placeholder: "String", hint: "Como o computador diferencia texto de comando?" },
+                        { id: 1, placeholder: "Inteiro", hint: "Faz sentido ter 25 anos e meio?" },
+                        { id: 2, placeholder: "Real", hint: "Peso pode variar em gramas. Inteiro suporta?" },
+                        { id: 3, placeholder: "Real", hint: "1 metro e 75cm... como representar?" },
+                        { id: 4, placeholder: "Booleano", hint: "Ativo ou não - quantos estados?" }
+                    ],
+                    validate: function(answers) {
+                        const results = [];
+                        results.push({ correct: /^["'].*["']$/.test(answers[0].trim()) && answers[0].trim().length > 2, hint: "Como o computador diferencia texto de comando?" });
+                        results.push({ correct: /^\d+$/.test(answers[1].trim()), hint: "Faz sentido ter 25 anos e meio?" });
+                        results.push({ correct: /^\d+\.\d+$/.test(answers[2].trim()), hint: "Peso pode variar em gramas. Inteiro suporta?" });
+                        results.push({ correct: /^\d+\.\d+$/.test(answers[3].trim()), hint: "1 metro e 75cm... como representar?" });
+                        results.push({ correct: ["verdadeiro", "falso", "true", "false"].includes(answers[4].trim().toLowerCase()), hint: "Ativo ou não - quantos estados?" });
+                        return results;
+                    },
+                    successMessage: "Excelente! Você domina os tipos básicos!\n\n⚡ <strong>Dark Side desbloqueado!</strong>"
+                },
+                // CASA 6 - DARK SIDE
+                {
+                    type: "multiple", zone: "dark",
+                    context: "Analise com ATENÇÃO:",
+                    code: `x ← "100"
+y ← 50
+resultado ← x + y`,
+                    question: "O que acontece na terceira linha?",
+                    options: ["resultado recebe 150", "resultado recebe \"10050\"", "Erro: tipos incompatíveis", "resultado recebe \"150\""],
+                    correct: 2,
+                    hints: [],
+                    successMessage: "Correto! Não é possível somar String + Inteiro diretamente."
+                },
+                // CASA 7
+                {
+                    type: "fill", zone: "dark",
+                    context: "Sistema de carrinho de compras. O programa soma 3 produtos. Complete:",
+                    template: `total ← {0}
+
+preco1 ← 29.90
+total ← total + preco1
+
+preco2 ← 15.50
+total ← total + preco2`,
+                    blanks: [{ id: 0, placeholder: "???", hint: "Incorreto." }],
+                    validate: function(answers) {
+                        const ans = answers[0].trim();
+                        return [{ correct: ans === "0" || ans === "0.0" || ans === "0.00", hint: "Incorreto." }];
+                    },
+                    successMessage: "Correto! Acumuladores devem iniciar em <strong>0</strong>."
+                },
+                // CASA 8
+                {
+                    type: "multiple", zone: "dark",
+                    context: "Quantos TIPOS DIFERENTES existem neste código?",
+                    code: `produto ← "Notebook"
+preco ← 2499.90
+quantidade ← 3
+emEstoque ← verdadeiro
+codigo ← "NB-001"
+desconto ← 0.15`,
+                    question: "Total de tipos DIFERENTES utilizados:",
+                    options: ["2 tipos", "3 tipos", "4 tipos", "6 tipos"],
+                    correct: 2,
+                    hints: [],
+                    successMessage: "Correto! 4 tipos:\n\n• String: produto, codigo\n• Real: preco, desconto\n• Inteiro: quantidade\n• Booleano: emEstoque"
+                },
+                // CASA 9
+                {
+                    type: "multiple", zone: "dark",
+                    context: "Um programador júnior escreveu este código. Há um PROBLEMA:",
+                    code: `idade1 ← "25"
+idade2 ← 30
+idade3 ← 28
+
+soma ← idade1 + idade2 + idade3
+media ← soma / 3`,
+                    question: "Qual é o problema?",
+                    options: ["Falta declarar 'soma'", "idade1 está como texto", "Não pode dividir por 3", "Falta 'media'"],
+                    correct: 1,
+                    hints: [],
+                    successMessage: "Exato! idade1 tem ASPAS, tornando-a String. Erro na soma!"
+                },
+                // CASA 10
+                {
+                    type: "multiple", zone: "dark",
+                    context: "Algoritmo clássico de TROCA de valores:",
+                    code: `a ← 7
+b ← 3
+
+temp ← a
+a ← b
+b ← temp`,
+                    question: "Quais os valores de 'a' e 'b' ao final?",
+                    options: ["a = 7, b = 3", "a = 3, b = 7", "a = 3, b = 3", "a = 7, b = 7"],
+                    correct: 1,
+                    hints: [],
+                    successMessage: "Perfeito! Variável 'temp' guarda o valor original.\n\n👑 <strong>Boss desbloqueado!</strong>"
+                }
+            ],
+            bossQuestions: [
+                { id: 1, question: "Tipo de <code>temperatura ← -5</code>", options: ["String", "Inteiro", "Real", "Booleano"], correct: 1, explanation: "Números negativos sem decimal são Inteiros." },
+                { id: 2, question: "Tipo de <code>pi ← 3.14159</code>", options: ["String", "Inteiro", "Real", "Booleano"], correct: 2, explanation: "Números com decimal são Real." },
+                { id: 3, question: "Qual contém APENAS Strings?", options: ['nome←"Ana", idade←20', 'cidade←"SP", pais←"BR"', 'cod←123, x←"Y"', 'ativo←true, n←"Z"'], correct: 1, explanation: "Apenas cidade e pais têm aspas." },
+                { id: 4, question: "O que é <code>x ← \"42\"</code>?", options: ["Número 42", "Texto \"42\"", "Erro", "Booleano"], correct: 1, explanation: "Aspas transformam em String." },
+                { id: 5, code: "a ← 10\nb ← 20\na ← b", question: "Valores finais?", options: ["a=10, b=20", "a=20, b=20", "a=20, b=10", "a=30, b=20"], correct: 1, explanation: "'a' recebe valor de 'b'." },
+                { id: 6, question: "Valor INVÁLIDO para Booleano?", options: ["verdadeiro", "falso", "true", '"sim"'], correct: 3, explanation: "\"sim\" é String." },
+                { id: 7, code: "x ← 5\ny ← x\nx ← x + 1", question: "Valor de 'y'?", options: ["5", "6", "11", "Erro"], correct: 0, explanation: "'y' copiou 5." },
+                { id: 8, question: "Declaração CORRETA para preço?", options: ['p←"19.90"', 'p←19.90', 'p←verdadeiro', 'p←dezenove'], correct: 1, explanation: "Preços são números reais." },
+                { id: 9, question: "Tipos em <code>a←1, b←2, c←3</code>?", options: ["1 tipo", "2 tipos", "3 tipos", "Nenhum"], correct: 0, explanation: "Todos Inteiros." },
+                { id: 10, code: 'nome←""\nidade←0\nativo←falso', question: "Quantos tipos DIFERENTES?", options: ["1", "2", "3", "4"], correct: 2, explanation: "String, Inteiro, Booleano = 3." },
+                { id: 11, question: "Diferença: <code>42</code> vs <code>\"42\"</code>?", options: ["Nenhuma", "42 número, \"42\" texto", "42 texto, \"42\" número", "Ambos números"], correct: 1, explanation: "Aspas definem String." },
+                { id: 12, question: "Qual é número REAL?", options: ["100", '"-50"', "7.0", "verdadeiro"], correct: 2, explanation: "7.0 tem decimal." },
+                { id: 13, code: "r ← 10 > 5", question: "Tipo de 'r'?", options: ["Inteiro", "Real", "String", "Booleano"], correct: 3, explanation: "Comparações = Booleano." },
+                { id: 14, question: "O que faz <code>x ← x + 1</code>?", options: ["Equação", "Incrementa x", "Erro", "Reseta x"], correct: 1, explanation: "x recebe x + 1." },
+                { id: 15, code: 'a←"10"\nb←10\nc←a+b', question: "O que acontece?", options: ["c = 20", "c = \"1010\"", "Erro de tipos", "c = \"20\""], correct: 2, explanation: "String + Inteiro = Erro." },
+                { id: 16, question: "Nome de variável INVÁLIDO?", options: ["idade1", "minha_var", "2nome", "valorTotal"], correct: 2, explanation: "Não começa com número." },
+                { id: 17, code: "s←100.00\ns←150.50", question: "Valor final de 's'?", options: ["100.00", "150.50", "250.50", "Erro"], correct: 1, explanation: "Substituição." },
+                { id: 18, question: "Variável para 'usuário logado'?", options: ['l←"sim"', 'l←1', 'l←verdadeiro', 'l←"true"'], correct: 2, explanation: "Estados binários = Booleano." },
+                { id: 19, code: "x←7\ny←3\ntemp←x\nx←y\ny←temp", question: "Valores finais?", options: ["x=7,y=3", "x=3,y=7", "x=3,y=3", "x=7,y=7"], correct: 1, explanation: "Algoritmo de troca." },
+                { id: 20, code: 't←"A"\nv←99.90\nq←2\nd←true', question: "Quantos tipos?", options: ["2", "3", "4", "5"], correct: 2, explanation: "String, Real, Inteiro, Booleano = 4." }
+            ]
         };
 
-        let currentStageData = null;
+        // ==================== ESTADO ====================
+        let gameState = { completedStages: [], bossCompleted: false, worldCompleted: false, totalErrors: 0, currentAttempts: 0 };
+        let currentStage = null;
         let selectedOption = null;
-        let draggedElement = null;
         let matchSelections = { left: null, right: null };
         let matchedPairs = [];
-
+        let bossState = { questions: [], currentIndex: 0, answers: [], score: 0 };
+                // ==================== PROGRESSO ====================
         function loadProgress() {
-            const saved = localStorage.getItem('algoritmoQuestProgress');
-            if (saved) {
-                gameState = JSON.parse(saved);
-            }
+            const saved = localStorage.getItem('algoritmoQuest_world1_v3');
+            if (saved) gameState = { ...gameState, ...JSON.parse(saved) };
         }
 
         function saveProgress() {
-            localStorage.setItem('algoritmoQuestProgress', JSON.stringify(gameState));
+            localStorage.setItem('algoritmoQuest_world1_v3', JSON.stringify(gameState));
         }
 
         function resetProgress() {
-            if (confirm('Tem certeza? Todo o progresso será perdido!')) {
-                localStorage.removeItem('algoritmoQuestProgress');
+            if (confirm('⚠️ Tem certeza?\n\nTodo o progresso será perdido!')) {
+                localStorage.removeItem('algoritmoQuest_world1_v3');
                 location.reload();
             }
         }
 
-        function renderProgressWord() {
+        // ==================== HOME ====================
+        function renderHome() {
+            // Progress word
             const word = "ALGORITMO";
-            const html = word.split('').map((letter, i) => {
-                const unlocked = gameState.unlockedLetters.includes(i);
+            document.getElementById('homeProgressWord').innerHTML = word.split('').map((letter, i) => {
+                const unlocked = i === 0 && gameState.worldCompleted;
                 return `<span class="${unlocked ? 'unlocked' : ''}">${unlocked ? letter : '?'}</span>`;
             }).join('');
-            document.getElementById('progressWord').innerHTML = html;
-        }
 
-        function renderWorldMap() {
-            const mapHtml = WORLDS.map((world, index) => {
-                const isLocked = index > 0 && !gameState.completedWorlds.includes(index);
-                const isCompleted = gameState.completedWorlds.includes(index + 1);
-                const isCurrent = !isCompleted && (index === 0 || gameState.completedWorlds.includes(index));
+            // Planets
+            let html = '';
+            WORLDS_DATA.forEach((world, i) => {
+                const isCompleted = i === 0 && gameState.worldCompleted;
+                const isCurrent = i === 0 && !gameState.worldCompleted;
+                const isLocked = i > 0;
                 
-                return `
-                    <div class="world-card ${isLocked ? 'locked' : ''} ${isCompleted ? 'completed' : ''} ${isCurrent ? 'current' : ''}"
-                         onclick="${isLocked ? '' : `openWorld(${world.id})`}">
-                        <div class="world-number">Mundo ${world.id}</div>
-                        <div class="world-title">${world.title}</div>
-                        <div class="world-letter">${world.letter}</div>
-                        ${isCompleted ? '<div>✅ Completo</div>' : ''}
+                html += `
+                    <div class="planet world-${world.id} ${isCompleted ? 'completed' : ''} ${isCurrent ? 'current' : ''} ${isLocked ? 'locked' : ''}"
+                        onclick="${!isLocked ? 'openWorld(' + world.id + ')' : ''}">
+                        <span class="planet-icon">${world.icon}</span>
+                        <span class="planet-letter">${world.letter}</span>
+                        <span class="planet-number">${world.name}</span>
                     </div>
                 `;
-            }).join('');
-            
-            document.getElementById('worldMap').innerHTML = mapHtml;
+            });
+            document.getElementById('worldsGrid').innerHTML = html;
         }
 
         function openWorld(worldId) {
-            const world = WORLDS.find(w => w.id === worldId);
-            if (!world) return;
-
-            let bodyHtml = '';
-
-            if (world.intro) {
-                bodyHtml = `
-                    <div class="intro-card">
-                        <h3>${world.intro.title}</h3>
-                        <p>${world.intro.description}</p>
-                        <pre>${world.intro.example}</pre>
-                    </div>
-                `;
-            }
-
-            if (world.stages && world.stages.length > 0) {
-                bodyHtml += '<h3>Casas do Mundo:</h3>';
-                bodyHtml += '<div class="stage-grid">';
-                
-                const completedKey = `world${worldId}`;
-                const completed = gameState.completedStages[completedKey] || [];
-                
-                world.stages.forEach((stage, i) => {
-                    const isCompleted = completed.includes(i);
-                    const isLocked = i > 0 && !completed.includes(i - 1);
-                    
-                    bodyHtml += `
-                        <div class="stage-item ${isLocked ? 'locked' : 'unlocked'} ${isCompleted ? 'completed' : ''}" 
-                             onclick="${isLocked ? '' : `openStage(${worldId}, ${i})`}">
-                            <div style="font-size: 1.5em;">${isCompleted ? '✅' : '🏠'}</div>
-                            <div>${i + 1}</div>
-                        </div>
-                    `;
-                });
-
-                const allCompleted = completed.length === world.stages.length;
-                bodyHtml += `
-                    <div class="stage-item boss ${allCompleted ? '' : 'locked'}" 
-                         onclick="${allCompleted ? `openBoss(${worldId})` : ''}">
-                        <div style="font-size: 1.5em;">👑</div>
-                        <div>BOSS</div>
-                    </div>
-                `;
-                bodyHtml += '</div>';
-            } else {
-                bodyHtml += '<p style="text-align:center; color:#999; margin: 20px 0;">🚧 Em construção...</p>';
-            }
-
-            bodyHtml += `
-                <div class="action-buttons">
-                    <button class="btn btn-secondary" onclick="closeModal()">Voltar ao Mapa</button>
-                </div>
-            `;
-
-            document.getElementById('modalTitle').textContent = `Mundo ${worldId}: ${world.title}`;
-            document.getElementById('modalBody').innerHTML = bodyHtml;
-            document.getElementById('worldModal').classList.add('show');
-        }
-
-        function openStage(worldId, stageId) {
-            const world = WORLDS.find(w => w.id === worldId);
-            const stage = world.stages[stageId];
-            currentStageData = { worldId, stageId, stage };
-            selectedOption = null;
-            matchSelections = { left: null, right: null };
-            matchedPairs = [];
-
-            let bodyHtml = `
-                <div class="question-area">
-                    ${stage.context ? `<div class="question-context">${stage.context}</div>` : ''}
-                    ${stage.code ? `<pre>${stage.code}</pre>` : ''}
-                    ${stage.question ? `<div class="question-text">${stage.question}</div>` : ''}
-            `;
-
-            if (stage.type === 'multiple') {
-                bodyHtml += '<div class="options">';
-                stage.options.forEach((opt, i) => {
-                    bodyHtml += `
-                        <div class="option" onclick="selectOption(${i})">
-                            ${String.fromCharCode(65 + i)}) ${opt}
-                        </div>
-                    `;
-                });
-                bodyHtml += '</div>';
-
-            } else if (stage.type === 'fill') {
-                let template = stage.template.replace(/\n/g, '<br>');
-                stage.blanks.forEach((blank, i) => {
-                    template = template.replace(`{${i}}`, 
-                        `<input type="text" id="blank${i}" placeholder="${blank.placeholder}" />`);
-                });
-                bodyHtml += `<div class="fill-blank">${template}</div>`;
-                bodyHtml += `<div id="hintsArea"></div>`;
-
-            } else if (stage.type === 'drag') {
-                bodyHtml += '<div class="draggable-area" id="dragArea">';
-                const shuffled = [...stage.items].sort(() => Math.random() - 0.5);
-                shuffled.forEach((item, i) => {
-                    bodyHtml += `
-                        <div class="drag-item" draggable="true" data-index="${stage.items.indexOf(item)}">
-                            ${item}
-                        </div>
-                    `;
-                });
-                bodyHtml += '</div>';
-
-            } else if (stage.type === 'match') {
-                bodyHtml += '<div class="match-container">';
-                bodyHtml += '<div class="match-column" id="matchLeft">';
-                stage.pairs.forEach((pair, i) => {
-                    bodyHtml += `
-                        <div class="match-item" data-index="${i}" onclick="selectMatch('left', ${i}, this)">
-                            ${pair.left}
-                        </div>
-                    `;
-                });
-                bodyHtml += '</div><div class="match-column" id="matchRight">';
-                const shuffledRight = [...stage.pairs].sort(() => Math.random() - 0.5);
-                shuffledRight.forEach((pair) => {
-                    const originalIndex = stage.pairs.findIndex(p => p.right === pair.right);
-                    bodyHtml += `
-                        <div class="match-item" data-index="${originalIndex}" onclick="selectMatch('right', ${originalIndex}, this)">
-                            ${pair.right}
-                        </div>
-                    `;
-                });
-                bodyHtml += '</div></div>';
-            }
-
-            bodyHtml += `
-                    <div id="feedback" class="feedback"></div>
-                    <div class="action-buttons">
-                        <button class="btn btn-primary" onclick="checkStageAnswer()">Verificar</button>
-                        <button class="btn btn-secondary" onclick="openWorld(${worldId})">Voltar</button>
-                    </div>
-                </div>
-            `;
-
-            document.getElementById('modalTitle').textContent = `Casa ${stageId + 1}`;
-            document.getElementById('modalBody').innerHTML = bodyHtml;
-
-            if (stage.type === 'drag') {
-                setupDragAndDrop();
-            }
-        }
-
-        function selectOption(index) {
-            selectedOption = index;
-            document.querySelectorAll('.option').forEach((el, i) => {
-                el.classList.toggle('selected', i === index);
-            });
-        }
-
-        function setupDragAndDrop() {
-            const container = document.getElementById('dragArea');
-            const items = container.querySelectorAll('.drag-item');
-
-            items.forEach(item => {
-                item.addEventListener('dragstart', (e) => {
-                    draggedElement = item;
-                    item.classList.add('dragging');
-                });
-
-                item.addEventListener('dragend', () => {
-                    item.classList.remove('dragging');
-                    draggedElement = null;
-                });
-            });
-
-            container.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                const afterElement = getDragAfterElement(container, e.clientY);
-                if (draggedElement) {
-                    if (afterElement == null) {
-                        container.appendChild(draggedElement);
-                    } else {
-                        container.insertBefore(draggedElement, afterElement);
-                    }
-                }
-            });
-        }
-
-        function getDragAfterElement(container, y) {
-            const draggableElements = [...container.querySelectorAll('.drag-item:not(.dragging)')];
-            return draggableElements.reduce((closest, child) => {
-                const box = child.getBoundingClientRect();
-                const offset = y - box.top - box.height / 2;
-                if (offset < 0 && offset > closest.offset) {
-                    return { offset: offset, element: child };
-                } else {
-                    return closest;
-                }
-            }, { offset: Number.NEGATIVE_INFINITY }).element;
-        }
-
-        function selectMatch(side, index, element) {
-            if (matchedPairs.includes(index) && side === 'left') return;
-            if (matchedPairs.some(p => p === index) && side === 'right') return;
-
-            const column = side === 'left' ? 'matchLeft' : 'matchRight';
-            document.querySelectorAll(`#${column} .match-item`).forEach(el => {
-                if (!el.classList.contains('matched')) {
-                    el.classList.remove('selected');
-                }
-            });
-
-            element.classList.add('selected');
-            matchSelections[side] = index;
-
-            if (matchSelections.left !== null && matchSelections.right !== null) {
-                checkMatchPair();
-            }
-        }
-
-        function checkMatchPair() {
-            const leftEl = document.querySelector(`#matchLeft .match-item[data-index="${matchSelections.left}"]`);
-            const rightEl = document.querySelector(`#matchRight .match-item[data-index="${matchSelections.right}"]`);
-
-            if (matchSelections.left === matchSelections.right) {
-                matchedPairs.push(matchSelections.left);
-                leftEl.classList.remove('selected');
-                leftEl.classList.add('matched');
-                rightEl.classList.remove('selected');
-                rightEl.classList.add('matched');
-            } else {
-                leftEl.classList.add('wrong');
-                rightEl.classList.add('wrong');
-                setTimeout(() => {
-                    leftEl.classList.remove('selected', 'wrong');
-                    rightEl.classList.remove('selected', 'wrong');
-                }, 800);
-            }
-
-            matchSelections = { left: null, right: null };
-        }
-
-        function checkStageAnswer() {
-            const { worldId, stageId, stage } = currentStageData;
-            const feedback = document.getElementById('feedback');
-            let isCorrect = false;
-
-           if (stage.type === 'multiple') {
-    if (selectedOption === null) {
-        alert('Selecione uma resposta!');
-        return;
-    }
-    isCorrect = selectedOption === stage.correct;
-    
-    document.querySelectorAll('.option').forEach((el, i) => {
-        el.classList.remove('selected', 'incorrect');
-        if (isCorrect && i === stage.correct) {
-            el.classList.add('correct');
-            el.style.pointerEvents = 'none';
-        }
-        if (!isCorrect && i === selectedOption) {
-            el.classList.add('incorrect');
-        }
-    });
-
-    feedback.className = `feedback show ${isCorrect ? 'correct' : 'incorrect'}`;
-    feedback.textContent = isCorrect 
-        ? (stage.successMessage || '✅ Correto!') 
-        : `❌ Incorreto. ${stage.explanation || ''}\n\nTente novamente!`;
-    
-    if (!isCorrect) {
-        selectedOption = null;
-        return;
-    } else if (stage.type === 'fill') {
-                const results = [];
-                const hintsArea = document.getElementById('hintsArea');
-                hintsArea.innerHTML = '';
-
-                stage.blanks.forEach((blank, i) => {
-                    const input = document.getElementById(`blank${i}`);
-                    const value = input.value.trim();
-                    
-                    let correct = false;
-                    if (blank.validate) {
-                        correct = blank.validate(value);
-                    } else if (blank.answer) {
-                        correct = blank.answer.some(ans => ans.toLowerCase() === value.toLowerCase());
-                    }
-
-                    results.push(correct);
-                    input.classList.remove('correct', 'incorrect');
-                    input.classList.add(correct ? 'correct' : 'incorrect');
-
-                    if (!correct && blank.errorHint) {
-                        hintsArea.innerHTML += `<p class="hint-text">⚠️ Campo ${i + 1}: ${blank.errorHint}</p>`;
-                    }
-                });
-                
-                isCorrect = results.every(r => r);
-                feedback.className = `feedback show ${isCorrect ? 'correct' : 'incorrect'}`;
-                feedback.textContent = isCorrect 
-                    ? (stage.successMessage || '✅ Todas corretas!') 
-                    : '❌ Corrija os campos destacados em vermelho.';
-
-            } else if (stage.type === 'drag') {
-                const items = Array.from(document.querySelectorAll('.drag-item'));
-                const currentOrder = items.map(item => parseInt(item.dataset.index));
-                isCorrect = JSON.stringify(currentOrder) === JSON.stringify(stage.correctOrder);
-                
-                feedback.className = `feedback show ${isCorrect ? 'correct' : 'incorrect'}`;
-                feedback.textContent = isCorrect 
-                    ? (stage.successMessage || '✅ Ordem correta!') 
-                    : '❌ Ordem incorreta. Arraste para reorganizar.';
-
-            } else if (stage.type === 'match') {
-                isCorrect = matchedPairs.length === stage.pairs.length;
-                feedback.className = `feedback show ${isCorrect ? 'correct' : 'incorrect'}`;
-                feedback.textContent = isCorrect 
-                    ? (stage.successMessage || '✅ Todos os pares corretos!') 
-                    : `❌ Faltam ${stage.pairs.length - matchedPairs.length} par(es). Continue associando!`;
-            }
-
-            if (isCorrect) {
-                const completedKey = `world${worldId}`;
-                if (!gameState.completedStages[completedKey]) {
-                    gameState.completedStages[completedKey] = [];
-                }
-                if (!gameState.completedStages[completedKey].includes(stageId)) {
-                    gameState.completedStages[completedKey].push(stageId);
-                }
-                saveProgress();
-                
-                setTimeout(() => {
-                    const world = WORLDS.find(w => w.id === worldId);
-                    if (stageId < world.stages.length - 1) {
-                        openStage(worldId, stageId + 1);
-                    } else {
-                        openWorld(worldId);
-                    }
-                }, 2500);
-            }
-        }
-
-        function openBoss(worldId) {
-            const world = WORLDS.find(w => w.id === worldId);
-            const bodyHtml = `
-                <div class="boss-banner">👑 BOSS DO MUNDO ${worldId} 👑</div>
-                <p style="text-align:center; margin:20px 0;">
-                    Você completou todas as casas!<br><br>
-                    Enfrente o Boss para conquistar a letra <strong style="font-size:1.5em; color:#667eea;">${world.letter}</strong>
-                </p>
-                <div class="action-buttons">
-                    <button class="btn btn-success" onclick="completeBoss(${worldId})">⚔️ Enfrentar Boss</button>
-                    <button class="btn btn-secondary" onclick="openWorld(${worldId})">Voltar</button>
-                </div>
-            `;
-
-            document.getElementById('modalTitle').textContent = `Boss - ${world.title}`;
-            document.getElementById('modalBody').innerHTML = bodyHtml;
-        }
-
-        function completeBoss(worldId) {
-            const world = WORLDS.find(w => w.id === worldId);
-            
-            if (!gameState.completedWorlds.includes(worldId)) {
-                gameState.completedWorlds.push(worldId);
-                gameState.unlockedLetters.push(worldId - 1);
-                saveProgress();
-            }
-            
-            closeModal();
-            renderProgressWord();
-            renderWorldMap();
-            
+            document.getElementById('homeView').style.display = 'none';
+            document.getElementById('mapView').style.display = 'block';
+            document.getElementById('mapView').classList.add('active');
+            renderMap();
             setTimeout(() => {
-                alert(`🎉 PARABÉNS!\n\nVocê conquistou a letra "${world.letter}"!\n\nContinue sua jornada para completar: ALGORITMO`);
+                const start = document.querySelector('.start-badge');
+                if (start) start.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }, 300);
         }
 
-        function closeModal() {
-            document.getElementById('worldModal').classList.remove('show');
+        function goToHome() {
+            document.getElementById('mapView').classList.remove('active');
+            document.getElementById('mapView').style.display = 'none';
+            document.getElementById('homeView').style.display = 'block';
+            renderHome();
+        }
+
+        // ==================== MAP ====================
+        function renderMap() {
+            // Progress word
+            const word = "ALGORITMO";
+            document.getElementById('progressWord').innerHTML = word.split('').map((letter, i) => {
+                const unlocked = i === 0 && gameState.worldCompleted;
+                return `<span class="${unlocked ? 'unlocked' : ''}">${unlocked ? letter : '?'}</span>`;
+            }).join('');
+
+            // Progress indicator
+            document.getElementById('progressIndicator').innerHTML = `📊 ${gameState.completedStages.length}/10 casas • Erros: ${gameState.totalErrors}`;
+
+            // Map
+            let html = '';
+            
+            // Boss
+            const bossUnlocked = gameState.completedStages.length === 10 && !gameState.bossCompleted;
+            const bossCompleted = gameState.bossCompleted;
+            html += `<div class="stage boss ${bossCompleted ? 'completed' : ''} ${!bossUnlocked && !bossCompleted ? 'locked' : ''}" onclick="${bossUnlocked ? 'openBoss()' : ''}">
+                <div class="stage-icon">${bossCompleted ? '✅' : '👑'}</div>
+                <div class="stage-num">BOSS</div>
+            </div>`;
+            html += '<div class="path-line boss"></div>';
+
+            // Casas 10-6 (Dark)
+            for (let i = 9; i >= 5; i--) {
+                const isCompleted = gameState.completedStages.includes(i);
+                const prevCompleted = i === 5 ? gameState.completedStages.includes(4) : gameState.completedStages.includes(i - 1);
+                const isLocked = !isCompleted && !prevCompleted;
+                
+                html += `<div class="stage dark ${isCompleted ? 'completed' : ''} ${isLocked ? 'locked' : ''}" onclick="${!isLocked ? 'openStage(' + i + ')' : ''}">
+                    <div class="stage-icon">${isCompleted ? '✅' : '💀'}</div>
+                    <div class="stage-num">${i + 1}</div>
+                </div>`;
+                if (i > 5) html += '<div class="path-line dark"></div>';
+            }
+
+            html += '<div class="path-line dark"></div>';
+            html += '<div class="dark-side-divider">Dark Side</div>';
+            html += '<div class="path-line"></div>';
+
+            // Casas 5-1 (Light)
+            for (let i = 4; i >= 0; i--) {
+                const isCompleted = gameState.completedStages.includes(i);
+                const prevCompleted = i === 0 ? true : gameState.completedStages.includes(i - 1);
+                const isLocked = !isCompleted && !prevCompleted;
+                
+                html += `<div class="stage light ${isCompleted ? 'completed' : ''} ${isLocked ? 'locked' : ''}" onclick="${!isLocked ? 'openStage(' + i + ')' : ''}">
+                    <div class="stage-icon">${isCompleted ? '✅' : '🏠'}</div>
+                    <div class="stage-num">${i + 1}</div>
+                </div>`;
+                if (i > 0) html += '<div class="path-line"></div>';
+            }
+
+            html += '<div class="path-line"></div>';
+            html += '<div class="start-badge">🚀 INÍCIO</div>';
+
+            document.getElementById('mapContainer').innerHTML = html;
+        }
+
+        // ==================== STAGES ====================
+        function openStage(index) {
+            const stage = WORLD.stages[index];
+            currentStage = { index, data: stage };
+            gameState.currentAttempts = 0;
             selectedOption = null;
             matchSelections = { left: null, right: null };
             matchedPairs = [];
-            currentStageData = null;
+            
+            document.getElementById('modalContent').className = `modal-content ${stage.zone === 'dark' ? 'dark-mode' : ''}`;
+            renderStage(stage, index);
+            document.getElementById('gameModal').classList.add('show');
         }
 
-        // Inicialização
-        loadProgress();
-        renderProgressWord();
-        renderWorldMap();
+        function closeModal() {
+            document.getElementById('gameModal').classList.remove('show');
+            currentStage = null;
+            renderMap();
+        }
+
+        function renderStage(stage, index) {
+            const types = { multiple: '📝 Múltipla Escolha', fill: '✏️ Completar', drag: '↕️ Ordenar', match: '🔗 Associar' };
+            
+            let html = `<div class="question-area">
+                <div class="question-header">
+                    <span class="question-type">${types[stage.type]}</span>
+                    <span class="attempt-counter">Tentativas: ${gameState.currentAttempts}</span>
+                </div>
+                <div class="question-context">${stage.context}</div>
+                ${stage.code ? `<div class="question-code">${stage.code}</div>` : ''}
+                ${stage.question ? `<div class="question-text">${stage.question}</div>` : ''}`;
+
+            if (stage.type === 'multiple') {
+                html += '<div class="options">';
+                stage.options.forEach((opt, i) => {
+                    html += `<div class="option" onclick="selectOption(${i})" id="option${i}">
+                        <span class="option-letter">${String.fromCharCode(65 + i)}</span>
+                        <span>${opt}</span>
+                    </div>`;
+                });
+                html += '</div>';
+            } else if (stage.type === 'fill') {
+                let tpl = stage.template;
+                stage.blanks.forEach((b, i) => {
+                    tpl = tpl.replace(`{${i}}`, `<input type="text" id="blank${i}" placeholder="${b.placeholder}" autocomplete="off">`);
+                });
+                html += `<div class="fill-blank">${tpl}</div>`;
+            } else if (stage.type === 'drag') {
+                const shuffled = [...stage.items].sort(() => Math.random() - 0.5);
+                html += '<div class="draggable-area" id="dragArea">';
+                shuffled.forEach(item => {
+                    html += `<div class="drag-item" draggable="true" data-correct="${item.correctPosition}">${item.text}</div>`;
+                });
+                html += '</div>';
+            } else if (stage.type === 'match') {
+                const shuffledLeft = [...stage.pairs].sort(() => Math.random() - 0.5);
+                const shuffledRight = [...stage.pairs].sort(() => Math.random() - 0.5);
+                html += '<div class="match-container"><div class="match-column"><div class="match-column-title">TIPO</div>';
+                shuffledLeft.forEach(p => {
+                    html += `<div class="match-item" data-id="${p.id}" data-side="left" onclick="selectMatch(this,'left',${p.id})">${p.left}</div>`;
+                });
+                html += '</div><div class="match-column"><div class="match-column-title">VALOR</div>';
+                shuffledRight.forEach(p => {
+                    html += `<div class="match-item" data-id="${p.id}" data-side="right" onclick="selectMatch(this,'right',${p.id})">${p.right}</div>`;
+                });
+                html += '</div></div>';
+            }
+
+            html += `<div id="feedback" class="feedback"></div>
+                <div class="action-buttons">
+                    <button class="btn btn-primary" id="checkBtn" onclick="checkAnswer()">✔️ Verificar</button>
+                    <button class="btn btn-success" id="nextBtn" style="display:none" onclick="goNext()">Continuar →</button>
+                    <button class="btn btn-secondary" onclick="closeModal()">↩️ Voltar</button>
+                </div>
+            </div>`;
+
+            document.getElementById('modalTitle').textContent = `Casa ${index + 1} de 10`;
+            document.getElementById('modalSubtitle').textContent = stage.zone === 'dark' ? '💀 Dark Side' : '🏠 Zona Clara';
+            document.getElementById('modalBody').innerHTML = html;
+            
+            if (stage.type === 'drag') setupDrag();
+        }
+
+        // ==================== INTERAÇÕES ====================
+        function selectOption(i) {
+            selectedOption = i;
+            document.querySelectorAll('.option').forEach((el, idx) => el.classList.toggle('selected', idx === i));
+        }
+
+        function setupDrag() {
+            const container = document.getElementById('dragArea');
+            let dragged = null;
+            
+            container.querySelectorAll('.drag-item').forEach(item => {
+                item.addEventListener('dragstart', () => { dragged = item; item.classList.add('dragging'); });
+                item.addEventListener('dragend', () => { item.classList.remove('dragging'); dragged = null; });
+                item.addEventListener('touchstart', () => { dragged = item; item.classList.add('dragging'); }, {passive: true});
+                item.addEventListener('touchmove', e => {
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    const after = getDragAfter(container, touch.clientY);
+                    after ? container.insertBefore(dragged, after) : container.appendChild(dragged);
+                }, {passive: false});
+                item.addEventListener('touchend', () => { item.classList.remove('dragging'); dragged = null; });
+            });
+            
+            container.addEventListener('dragover', e => {
+                e.preventDefault();
+                const after = getDragAfter(container, e.clientY);
+                if (dragged) after ? container.insertBefore(dragged, after) : container.appendChild(dragged);
+            });
+        }
+
+        function getDragAfter(container, y) {
+            const items = [...container.querySelectorAll('.drag-item:not(.dragging)')];
+            return items.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = y - box.top - box.height / 2;
+                return offset < 0 && offset > closest.offset ? { offset, element: child } : closest;
+            }, { offset: -Infinity }).element;
+        }
+
+        function selectMatch(el, side, id) {
+            if (el.classList.contains('matched')) return;
+            document.querySelectorAll(`.match-item[data-side="${side}"]`).forEach(e => { if (!e.classList.contains('matched')) e.classList.remove('selected'); });
+            el.classList.add('selected');
+            matchSelections[side] = id;
+            if (matchSelections.left !== null && matchSelections.right !== null) checkMatchPair();
+        }
+
+        function checkMatchPair() {
+            const left = document.querySelector(`.match-item[data-side="left"][data-id="${matchSelections.left}"]`);
+            const right = document.querySelector(`.match-item[data-side="right"][data-id="${matchSelections.right}"]`);
+            if (matchSelections.left === matchSelections.right) {
+                matchedPairs.push(matchSelections.left);
+                left.classList.remove('selected'); left.classList.add('matched');
+                right.classList.remove('selected'); right.classList.add('matched');
+            } else {
+                left.classList.add('wrong'); right.classList.add('wrong');
+                setTimeout(() => { left.classList.remove('selected', 'wrong'); right.classList.remove('selected', 'wrong'); }, 500);
+            }
+            matchSelections = { left: null, right: null };
+        }
+
+        // ==================== VERIFICAÇÃO ====================
+        function checkAnswer() {
+            const stage = currentStage.data;
+            const feedback = document.getElementById('feedback');
+            gameState.currentAttempts++;
+            document.querySelector('.attempt-counter').textContent = `Tentativas: ${gameState.currentAttempts}`;
+            
+            let correct = false;
+            const isDark = stage.zone === 'dark';
+
+            if (stage.type === 'multiple') {
+                if (selectedOption === null) { alert('Selecione uma opção!'); return; }
+                correct = selectedOption === stage.correct;
+                if (!correct) {
+                    document.getElementById(`option${selectedOption}`).classList.add('incorrect');
+                    const hint = isDark || !stage.hints.length ? "Incorreto." : stage.hints[Math.min(gameState.currentAttempts - 1, stage.hints.length - 1)];
+                    feedback.innerHTML = `❌ ${hint}`;
+                    feedback.className = 'feedback show incorrect';
+                    setTimeout(() => { document.querySelectorAll('.option').forEach(e => e.classList.remove('incorrect', 'selected')); selectedOption = null; }, 1200);
+                    gameState.totalErrors++; saveProgress(); renderMap();
+                    return;
+                }
+                document.getElementById(`option${selectedOption}`).classList.add('correct');
+            } else if (stage.type === 'fill') {
+                const answers = stage.blanks.map((_, i) => document.getElementById(`blank${i}`).value);
+                const results = stage.validate(answers);
+                correct = results.every(r => r.correct);
+                results.forEach((r, i) => {
+                    const input = document.getElementById(`blank${i}`);
+                    input.classList.remove('correct', 'incorrect');
+                    input.classList.add(r.correct ? 'correct' : 'incorrect');
+                });
+                if (!correct) {
+                    const firstErr = results.find(r => !r.correct);
+                    feedback.innerHTML = `❌ ${isDark ? 'Incorreto.' : firstErr.hint}`;
+                    feedback.className = 'feedback show incorrect';
+                    gameState.totalErrors++; saveProgress(); renderMap();
+                    return;
+                }
+            } else if (stage.type === 'drag') {
+                const order = [...document.querySelectorAll('.drag-item')].map(e => parseInt(e.dataset.correct));
+                correct = JSON.stringify(order) === JSON.stringify([0, 1, 2]);
+                if (!correct) {
+                    const hint = isDark || !stage.hints.length ? "Incorreto." : stage.hints[Math.min(gameState.currentAttempts - 1, stage.hints.length - 1)];
+                    feedback.innerHTML = `❌ ${hint}`;
+                    feedback.className = 'feedback show incorrect';
+                    gameState.totalErrors++; saveProgress(); renderMap();
+                    return;
+                }
+            } else if (stage.type === 'match') {
+                correct = matchedPairs.length === stage.pairs.length;
+                if (!correct) {
+                    feedback.innerHTML = `❌ Faltam ${stage.pairs.length - matchedPairs.length} par(es).`;
+                    feedback.className = 'feedback show incorrect';
+                    return;
+                }
+            }
+
+            // Acertou!
+            feedback.innerHTML = `✅ ${stage.successMessage}`;
+            feedback.className = 'feedback show correct';
+            if (!gameState.completedStages.includes(currentStage.index)) {
+                gameState.completedStages.push(currentStage.index);
+                saveProgress();
+            }
+            document.getElementById('checkBtn').style.display = 'none';
+            document.getElementById('nextBtn').style.display = 'inline-flex';
+            document.querySelectorAll('.option, .match-item, .drag-item').forEach(e => e.style.pointerEvents = 'none');
+            document.querySelectorAll('input').forEach(e => e.disabled = true);
+        }
+
+        function goNext() {
+            const nextIndex = currentStage.index + 1;
+            
+            // Casa 10 → Boss
+            if (nextIndex === 10) {
+                closeModal();
+                openBoss();
+                return;
+            }
+            
+            // Entrando no Dark Side
+            if (nextIndex === 5) {
+                closeModal();
+                showDarkTransition(() => openStage(nextIndex));
+                return;
+            }
+            
+            // Transição normal
+            if (nextIndex < 10) {
+                const stage = WORLD.stages[nextIndex];
+                currentStage = { index: nextIndex, data: stage };
+                gameState.currentAttempts = 0;
+                selectedOption = null;
+                matchSelections = { left: null, right: null };
+                matchedPairs = [];
+                document.getElementById('modalContent').className = `modal-content ${stage.zone === 'dark' ? 'dark-mode' : ''}`;
+                renderStage(stage, nextIndex);
+            } else {
+                closeModal();
+            }
+        }
+
+        // ==================== TRANSIÇÕES ====================
+        function showDarkTransition(callback) {
+            const transition = document.getElementById('darkTransition');
+            transition.classList.add('show');
+            document.getElementById('enterDarkBtn').onclick = () => {
+                transition.classList.remove('show');
+                if (callback) callback();
+            };
+        }
+
+        function showBossTransition(callback) {
+            const transition = document.getElementById('bossTransition');
+            transition.classList.add('show');
+            document.getElementById('challengeBossBtn').onclick = () => {
+                transition.classList.remove('show');
+                if (callback) callback();
+            };
+        }
+
+        // ==================== BOSS ====================
+        function openBoss() {
+            showBossTransition(() => {
+                const shuffled = [...WORLD.bossQuestions].sort(() => Math.random() - 0.5);
+                bossState = { questions: shuffled.slice(0, 10), currentIndex: 0, answers: [], score: 0 };
+                document.getElementById('modalContent').className = 'modal-content dark-mode';
+                renderBossQuestion();
+                document.getElementById('gameModal').classList.add('show');
+            });
+        }
+
+        function renderBossQuestion() {
+            const q = bossState.questions[bossState.currentIndex];
+            const num = bossState.currentIndex + 1;
+            
+            let html = `<div class="boss-banner">
+                <h2>👑 SIMULADO BOSS</h2>
+                <p>Acerte 7 de 10 para conquistar a letra "A"</p>
+                <div class="boss-progress">
+                    <span>${num}/10</span>
+                    <div class="boss-progress-bar"><div class="boss-progress-fill" style="width:${num * 10}%"></div></div>
+                    <span>🎯</span>
+                </div>
+            </div>
+            <div class="question-area">
+                ${q.code ? `<div class="question-code">${q.code}</div>` : ''}
+                <div class="question-text">${q.question}</div>
+                <div class="options">`;
+            
+            q.options.forEach((opt, i) => {
+                html += `<div class="option" onclick="selectBossOption(${i})" id="bossOpt${i}">
+                    <span class="option-letter">${String.fromCharCode(65 + i)}</span>
+                    <span>${opt}</span>
+                </div>`;
+            });
+            
+            html += `</div>
+                <div class="action-buttons">
+                    <button class="btn btn-danger" onclick="submitBossAnswer()">${num === 10 ? '🏁 Finalizar' : 'Próxima →'}</button>
+                </div>
+            </div>`;
+            
+            document.getElementById('modalTitle').textContent = `Questão ${num}/10`;
+            document.getElementById('modalSubtitle').textContent = 'Simulado Final';
+            document.getElementById('modalBody').innerHTML = html;
+            selectedOption = null;
+        }
+
+        function selectBossOption(i) {
+            selectedOption = i;
+            document.querySelectorAll('.option').forEach((el, idx) => el.classList.toggle('selected', idx === i));
+        }
+
+        function submitBossAnswer() {
+            if (selectedOption === null) { alert('Selecione!'); return; }
+            const q = bossState.questions[bossState.currentIndex];
+            bossState.answers.push({ question: q, selected: selectedOption, correct: selectedOption === q.correct });
+            if (selectedOption === q.correct) bossState.score++;
+            bossState.currentIndex++;
+            bossState.currentIndex < 10 ? renderBossQuestion() : showBossResults();
+        }
+
+        function showBossResults() {
+            const passed = bossState.score >= 7;
+            let html = `<div class="results-card">
+                <h2>${passed ? '🎉 PARABÉNS!' : '😔 Quase lá...'}</h2>
+                <div class="results-score ${passed ? 'pass' : 'fail'}">${bossState.score}/10</div>
+                <p>${passed ? 'Você conquistou a letra "A"!' : `Precisa de 7. Conseguiu ${bossState.score}.`}</p>
+                <div class="results-details"><h4>📋 Revisão:</h4>`;
+            
+            bossState.answers.forEach((a, i) => {
+                html += `<div class="result-item ${a.correct ? 'correct' : 'incorrect'}">
+                    <strong>${a.correct ? '✅' : '❌'} Q${i + 1}</strong>
+                    ${!a.correct ? `<div class="explanation">Resposta: ${a.question.options[a.question.correct]}<br>${a.question.explanation}</div>` : ''}
+                </div>`;
+            });
+            
+            html += `</div>
+                <div class="action-buttons">
+                    ${passed ? '<button class="btn btn-success" onclick="completeBoss()">🎉 Celebrar!</button>' : '<button class="btn btn-primary" onclick="openBoss()">🔄 Tentar</button>'}
+                    <button class="btn btn-secondary" onclick="closeModal()">↩️ Voltar</button>
+                </div>
+            </div>`;
+            
+            document.getElementById('modalTitle').textContent = passed ? '🏆 Vitória!' : '📊 Resultado';
+            document.getElementById('modalSubtitle').textContent = `${bossState.score}/10 acertos`;
+            document.getElementById('modalBody').innerHTML = html;
+        }
+
+        function completeBoss() {
+            gameState.bossCompleted = true;
+            gameState.worldCompleted = true;
+            saveProgress();
+            closeModal();
+            showVictory();
+        }
+
+        function showVictory() {
+            document.getElementById('victoryLetter').textContent = 'A';
+            document.getElementById('victorySub').textContent = 'Você dominou Variáveis e Tipos!';
+            document.getElementById('victoryOverlay').classList.add('show');
+            
+            // Confetti
+            for (let i = 0; i < 50; i++) {
+                const c = document.createElement('div');
+                c.className = 'confetti';
+                c.style.left = Math.random() * 100 + 'vw';
+                c.style.background = ['#ff6b6b', '#ffd93d', '#6bcb77', '#4d96ff', '#ff6bd6', '#00d4ff'][Math.floor(Math.random() * 6)];
+                c.style.animationDelay = Math.random() * 2 + 's';
+                document.body.appendChild(c);
+                setTimeout(() => c.remove(), 3000);
+            }
+        }
+
+        function closeVictory() {
+            document.getElementById('victoryOverlay').classList.remove('show');
+            goToHome();
+        }
+
+        // ==================== INIT ====================
+        window.addEventListener('load', () => {
+            loadProgress();
+            renderHome();
+        });
+
+        document.getElementById('gameModal').addEventListener('click', e => { if (e.target.id === 'gameModal') closeModal(); });
     </script>
 </body>
 </html>
