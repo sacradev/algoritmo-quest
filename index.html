@@ -984,25 +984,33 @@
             const feedback = document.getElementById('feedback');
             let isCorrect = false;
 
-            if (stage.type === 'multiple') {
-                if (selectedOption === null) {
-                    alert('Selecione uma resposta!');
-                    return;
-                }
-                isCorrect = selectedOption === stage.correct;
-                
-                document.querySelectorAll('.option').forEach((el, i) => {
-                    el.style.pointerEvents = 'none';
-                    if (i === stage.correct) el.classList.add('correct');
-                    if (i === selectedOption && !isCorrect) el.classList.add('incorrect');
-                });
+           if (stage.type === 'multiple') {
+    if (selectedOption === null) {
+        alert('Selecione uma resposta!');
+        return;
+    }
+    isCorrect = selectedOption === stage.correct;
+    
+    document.querySelectorAll('.option').forEach((el, i) => {
+        el.classList.remove('selected', 'incorrect');
+        if (isCorrect && i === stage.correct) {
+            el.classList.add('correct');
+            el.style.pointerEvents = 'none';
+        }
+        if (!isCorrect && i === selectedOption) {
+            el.classList.add('incorrect');
+        }
+    });
 
-                feedback.className = `feedback show ${isCorrect ? 'correct' : 'incorrect'}`;
-                feedback.textContent = isCorrect 
-                    ? (stage.successMessage || '✅ Correto!') 
-                    : `❌ Incorreto. ${stage.explanation || 'Tente novamente!'}`;
-
-            } else if (stage.type === 'fill') {
+    feedback.className = `feedback show ${isCorrect ? 'correct' : 'incorrect'}`;
+    feedback.textContent = isCorrect 
+        ? (stage.successMessage || '✅ Correto!') 
+        : `❌ Incorreto. ${stage.explanation || ''}\n\nTente novamente!`;
+    
+    if (!isCorrect) {
+        selectedOption = null;
+        return;
+    } else if (stage.type === 'fill') {
                 const results = [];
                 const hintsArea = document.getElementById('hintsArea');
                 hintsArea.innerHTML = '';
