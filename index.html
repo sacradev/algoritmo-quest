@@ -1,1 +1,759 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1a1a2e">
+    <title>Algoritmo Quest - Jornada da Lógica</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .progress-word {
+            font-size: 2em;
+            letter-spacing: 10px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        .progress-word span {
+            display: inline-block;
+            width: 40px;
+            height: 50px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 8px;
+            line-height: 50px;
+            margin: 0 5px;
+        }
+
+        .progress-word span.unlocked {
+            background: #00d4ff;
+            color: #000;
+            transform: scale(1.1);
+        }
+
+        .world-map {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .world-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .world-card.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: #e0e0e0;
+        }
+
+        .world-card.completed {
+            background: linear-gradient(135deg, #00c853 0%, #00e676 100%);
+            color: white;
+        }
+
+        .world-card.current {
+            border: 3px solid #00d4ff;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+
+        .world-card:not(.locked):hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .world-number {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .world-title {
+            font-size: 1em;
+            margin-bottom: 5px;
+        }
+
+        .world-letter {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+            margin-top: 10px;
+        }
+
+        .world-card.completed .world-letter {
+            color: white;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-header h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+
+        .intro-card {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .intro-card h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .intro-card pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.9em;
+        }
+
+        .stage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stage-item {
+            aspect-ratio: 1;
+            background: #e0e0e0;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .stage-item.unlocked {
+            background: #00d4ff;
+            color: white;
+        }
+
+        .stage-item.completed {
+            background: #00c853;
+            color: white;
+        }
+
+        .stage-item.boss {
+            background: linear-gradient(135deg, #ff5252 0%, #ff1744 100%);
+            color: white;
+            font-weight: bold;
+        }
+
+        .stage-item:not(.locked):hover {
+            transform: scale(1.1);
+        }
+
+        .stage-item.locked {
+            cursor: not-allowed;
+            opacity: 0.4;
+        }
+
+        .question-area {
+            margin: 20px 0;
+        }
+
+        .question-text {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 10px;
+        }
+
+        .question-context {
+            font-style: italic;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option {
+            padding: 15px;
+            background: #f5f5f5;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            background: #e8eaf6;
+        }
+
+        .option.selected {
+            border-color: #00d4ff;
+            background: #e1f5fe;
+        }
+
+        .option.correct {
+            border-color: #00c853;
+            background: #e8f5e9;
+        }
+
+        .option.incorrect {
+            border-color: #ff5252;
+            background: #ffebee;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 1em;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            resize: vertical;
+        }
+
+        .feedback {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            background: #e8f5e9;
+            border-left: 4px solid #00c853;
+            color: #1b5e20;
+        }
+
+        .feedback.incorrect {
+            background: #ffebee;
+            border-left: 4px solid #ff5252;
+            color: #b71c1c;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin: 5px;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+        }
+
+        .btn-success {
+            background: #00c853;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .boss-banner {
+            background: linear-gradient(135deg, #ff5252 0%, #ff1744 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .world-map {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .progress-word {
+                font-size: 1.5em;
+                letter-spacing: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎮 Algoritmo Quest</h1>
+            <p>Domine a lógica de programação jogando!</p>
+            <div class="progress-word" id="progressWord"></div>
+        </header>
+
+        <div class="world-map" id="worldMap"></div>
+    </div>
+
+    <div class="modal" id="worldModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle"></h2>
+            </div>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        const WORLDS = [
+            {
+                id: 1,
+                title: "Variáveis e Tipos",
+                letter: "A",
+                intro: {
+                    title: "Variáveis e Tipos de Dados",
+                    description: "Variáveis guardam informações na memória. Cada uma tem um nome e um tipo (texto, número inteiro, número decimal, verdadeiro/falso).",
+                    example: `usuario ← "Maria"\nsaldo ← 150.00\nativo ← verdadeiro`
+                },
+                stages: [
+                    {
+                        type: "open",
+                        context: "Um cadastro de cliente precisa armazenar: nome completo, idade e se possui cartão fidelidade.",
+                        question: "Crie as variáveis com valores fictícios.",
+                        hint: "Use tipos adequados: texto para nome, número para idade, booleano para fidelidade."
+                    },
+                    {
+                        type: "multiple",
+                        context: "Você recebeu esse código:",
+                        code: "a ← 5\nb ← a\na ← 10",
+                        question: "Qual o valor de 'b' no final?",
+                        options: ["5", "10", "15", "Erro"],
+                        correct: 0,
+                        explanation: "b recebe o valor que 'a' tinha quando foi atribuído (5). Mudar 'a' depois não afeta 'b'."
+                    },
+                    {
+                        type: "open",
+                        context: "Um aplicativo de delivery precisa guardar: nome do restaurante, nota média (0 a 5) e se está aberto agora.",
+                        question: "Crie as variáveis e atribua valores.",
+                        hint: "Pense nos tipos: texto, decimal e booleano."
+                    },
+                    {
+                        type: "open",
+                        context: "Qual a diferença entre:",
+                        code: 'idade ← "25"\nidade ← 25',
+                        question: "Explique com suas palavras.",
+                        hint: "Um é texto (string), outro é número (inteiro)."
+                    },
+                    {
+                        type: "open",
+                        context: "Um sistema de academia armazena: nome do aluno, peso (kg), altura (m) e se o plano está ativo.",
+                        question: "Monte as variáveis e simule os dados de uma pessoa.",
+                        hint: "Use tipos corretos para cada informação."
+                    }
+                ]
+            },
+            {
+                id: 2,
+                title: "Entrada e Saída",
+                letter: "L",
+                intro: {
+                    title: "Entrada e Saída de Dados",
+                    description: "Programas precisam receber dados do usuário (entrada) e mostrar resultados (saída).",
+                    example: `nome ← ler()\nescrever("Olá, " + nome)`
+                },
+                stages: []
+            },
+            {
+                id: 3,
+                title: "Operadores",
+                letter: "G",
+                intro: {
+                    title: "Operadores",
+                    description: "Operadores permitem fazer cálculos, comparações e testes lógicos.",
+                    example: `soma ← 5 + 3\nmaior ← (a > b)\nambos ← (x E y)`
+                },
+                stages: []
+            },
+            {
+                id: 4,
+                title: "Decisão (if/else)",
+                letter: "O",
+                stages: []
+            },
+            {
+                id: 5,
+                title: "Decisão Múltipla",
+                letter: "R",
+                stages: []
+            },
+            {
+                id: 6,
+                title: "Repetição (for)",
+                letter: "I",
+                stages: []
+            },
+            {
+                id: 7,
+                title: "Repetição (while)",
+                letter: "T",
+                stages: []
+            },
+            {
+                id: 8,
+                title: "Listas/Vetores",
+                letter: "M",
+                stages: []
+            },
+            {
+                id: 9,
+                title: "Funções",
+                letter: "O",
+                stages: []
+            }
+        ];
+
+        const BOSS_QUESTIONS = [
+            {
+                type: "multiple",
+                question: "Variáveis são usadas para:",
+                options: ["Armazenar dados temporariamente", "Apenas fazer cálculos", "Somente textos", "Nenhuma das anteriores"],
+                correct: 0
+            },
+            {
+                type: "multiple",
+                question: "O tipo booleano pode ter quantos valores?",
+                options: ["Infinitos", "10", "2", "Depende"],
+                correct: 2
+            }
+        ];
+
+        let gameState = {
+            currentWorld: 1,
+            completedWorlds: [],
+            currentStage: 0,
+            unlockedLetters: []
+        };
+
+        function loadProgress() {
+            const saved = localStorage.getItem('algoritmoQuestProgress');
+            if (saved) {
+                gameState = JSON.parse(saved);
+            }
+        }
+
+        function saveProgress() {
+            localStorage.setItem('algoritmoQuestProgress', JSON.stringify(gameState));
+        }
+
+        function renderProgressWord() {
+            const word = "ALGORITMO";
+            const html = word.split('').map((letter, i) => {
+                const unlocked = gameState.unlockedLetters.includes(i);
+                return `<span class="${unlocked ? 'unlocked' : ''}">${unlocked ? letter : '?'}</span>`;
+            }).join('');
+            document.getElementById('progressWord').innerHTML = html;
+        }
+
+        function renderWorldMap() {
+            const mapHtml = WORLDS.map((world, index) => {
+                const isLocked = index > 0 && !gameState.completedWorlds.includes(index);
+                const isCompleted = gameState.completedWorlds.includes(index + 1);
+                const isCurrent = gameState.currentWorld === world.id;
+                
+                return `
+                    <div class="world-card ${isLocked ? 'locked' : ''} ${isCompleted ? 'completed' : ''} ${isCurrent ? 'current' : ''}"
+                         onclick="${isLocked ? '' : `openWorld(${world.id})`}">
+                        <div class="world-number">Mundo ${world.id}</div>
+                        <div class="world-title">${world.title}</div>
+                        <div class="world-letter">${world.letter}</div>
+                        ${isCompleted ? '<div>✅ Completo</div>' : ''}
+                    </div>
+                `;
+            }).join('');
+            
+            document.getElementById('worldMap').innerHTML = mapHtml;
+        }
+
+        function openWorld(worldId) {
+            const world = WORLDS.find(w => w.id === worldId);
+            if (!world) return;
+
+            let bodyHtml = '';
+
+            if (world.intro) {
+                bodyHtml = `
+                    <div class="intro-card">
+                        <h3>${world.intro.title}</h3>
+                        <p>${world.intro.description}</p>
+                        <pre>${world.intro.example}</pre>
+                    </div>
+                `;
+            }
+
+            if (world.stages && world.stages.length > 0) {
+                bodyHtml += '<h3>Casas do Mundo:</h3>';
+                bodyHtml += '<div class="stage-grid">';
+                
+                world.stages.forEach((stage, i) => {
+                    const isLocked = i > gameState.currentStage && worldId === gameState.currentWorld;
+                    bodyHtml += `
+                        <div class="stage-item ${isLocked ? 'locked' : 'unlocked'}" 
+                             onclick="${isLocked ? '' : `openStage(${worldId}, ${i})`}">
+                            <div style="font-size: 1.5em;">🏠</div>
+                            <div>${i + 1}</div>
+                        </div>
+                    `;
+                });
+
+                bodyHtml += `
+                    <div class="stage-item boss" onclick="openBoss(${worldId})">
+                        <div style="font-size: 1.5em;">👑</div>
+                        <div>BOSS</div>
+                    </div>
+                `;
+                bodyHtml += '</div>';
+            } else {
+                bodyHtml += '<p style="text-align:center; color:#999;">Em breve...</p>';
+            }
+
+            bodyHtml += `
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" onclick="closeModal()">Voltar ao Mapa</button>
+                </div>
+            `;
+
+            document.getElementById('modalTitle').textContent = `Mundo ${worldId}: ${world.title}`;
+            document.getElementById('modalBody').innerHTML = bodyHtml;
+            document.getElementById('worldModal').classList.add('show');
+        }
+
+        function openStage(worldId, stageId) {
+            const world = WORLDS.find(w => w.id === worldId);
+            const stage = world.stages[stageId];
+
+            let bodyHtml = `
+                <div class="question-area">
+                    ${stage.context ? `<div class="question-context">${stage.context}</div>` : ''}
+                    ${stage.code ? `<pre>${stage.code}</pre>` : ''}
+                    <div class="question-text">${stage.question}</div>
+            `;
+
+            if (stage.type === 'multiple') {
+                bodyHtml += '<div class="options">';
+                stage.options.forEach((opt, i) => {
+                    bodyHtml += `
+                        <div class="option" onclick="selectOption(${i})">
+                            ${String.fromCharCode(65 + i)}) ${opt}
+                        </div>
+                    `;
+                });
+                bodyHtml += '</div>';
+            } else {
+                bodyHtml += `<textarea id="userAnswer" placeholder="Digite sua resposta aqui..."></textarea>`;
+                if (stage.hint) {
+                    bodyHtml += `<p style="font-size:0.9em; color:#666; margin-top:10px;">💡 ${stage.hint}</p>`;
+                }
+            }
+
+            bodyHtml += `
+                    <div id="feedback" class="feedback"></div>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="checkStageAnswer(${worldId}, ${stageId})">Verificar</button>
+                        <button class="btn btn-secondary" onclick="openWorld(${worldId})">Voltar</button>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('modalTitle').textContent = `Casa ${stageId + 1}`;
+            document.getElementById('modalBody').innerHTML = bodyHtml;
+        }
+
+        let selectedOptionIndex = null;
+
+        function selectOption(index) {
+            selectedOptionIndex = index;
+            document.querySelectorAll('.option').forEach((el, i) => {
+                el.classList.toggle('selected', i === index);
+            });
+        }
+
+        function checkStageAnswer(worldId, stageId) {
+            const world = WORLDS.find(w => w.id === worldId);
+            const stage = world.stages[stageId];
+            const feedback = document.getElementById('feedback');
+
+            let isCorrect = false;
+
+            if (stage.type === 'multiple') {
+                if (selectedOptionIndex === null) {
+                    alert('Selecione uma resposta!');
+                    return;
+                }
+                isCorrect = selectedOptionIndex === stage.correct;
+                
+                document.querySelectorAll('.option').forEach((el, i) => {
+                    if (i === stage.correct) el.classList.add('correct');
+                    if (i === selectedOptionIndex && !isCorrect) el.classList.add('incorrect');
+                });
+
+                feedback.className = `feedback show ${isCorrect ? 'correct' : 'incorrect'}`;
+                feedback.textContent = isCorrect ? '✅ Correto!' : `❌ Incorreto. ${stage.explanation || ''}`;
+
+            } else {
+                const answer = document.getElementById('userAnswer').value.trim();
+                if (!answer) {
+                    alert('Escreva sua resposta!');
+                    return;
+                }
+                
+                isCorrect = true;
+                feedback.className = 'feedback show correct';
+                feedback.textContent = '✅ Resposta registrada! Avance para a próxima casa.';
+            }
+
+            if (isCorrect) {
+                if (stageId === gameState.currentStage && worldId === gameState.currentWorld) {
+                    gameState.currentStage++;
+                }
+                saveProgress();
+                
+                setTimeout(() => {
+                    if (stageId < world.stages.length - 1) {
+                        openStage(worldId, stageId + 1);
+                    } else {
+                        openWorld(worldId);
+                    }
+                }, 2000);
+            }
+        }
+
+        function openBoss(worldId) {
+            const bodyHtml = `
+                <div class="boss-banner">👑 BOSS DO MUNDO ${worldId} 👑</div>
+                <p style="text-align:center; margin:20px 0;">Responda 5 questões aleatórias para conquistar a letra!</p>
+                <div class="action-buttons">
+                    <button class="btn btn-success" onclick="startBoss(${worldId})">Iniciar Boss</button>
+                    <button class="btn btn-secondary" onclick="openWorld(${worldId})">Voltar</button>
+                </div>
+            `;
+
+            document.getElementById('modalTitle').textContent = `Boss - Mundo ${worldId}`;
+            document.getElementById('modalBody').innerHTML = bodyHtml;
+        }
+
+        function startBoss(worldId) {
+            alert('Boss battle em desenvolvimento! 🎮\n\nEm breve você enfrentará 5 questões aleatórias.');
+            gameState.completedWorlds.push(worldId);
+            gameState.unlockedLetters.push(worldId - 1);
+            gameState.currentWorld = worldId + 1;
+            gameState.currentStage = 0;
+            saveProgress();
+            closeModal();
+            renderProgressWord();
+            renderWorldMap();
+        }
+
+        function closeModal() {
+            document.getElementById('worldModal').classList.remove('show');
+            selectedOptionIndex = null;
+        }
+
+        loadProgress();
+        renderProgressWord();
+        renderWorldMap();
+    </script>
+</body>
+</html>
