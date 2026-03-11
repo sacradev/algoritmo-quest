@@ -451,10 +451,11 @@
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>🎮 Algoritmo Quest</h1>
-            <p>Domine a lógica de programação jogando!</p>
-            <div class="progress-word" id="progressWord"></div>
+       <header>
+    <h1>🎮 Algoritmo Quest</h1>
+    <p>Domine a lógica de programação jogando!</p>
+    <div class="progress-word" id="progressWord"></div>
+    <button class="btn btn-secondary" onclick="resetProgress()" style="margin-top: 15px;">🔄 Resetar Progresso</button>
         </header>
 
         <div class="world-map" id="worldMap"></div>
@@ -968,6 +969,12 @@
         loadProgress();
         renderProgressWord();
         renderWorldMap();
+        function resetProgress() {
+    if (confirm('Tem certeza? Todo o progresso será perdido!')) {
+        localStorage.removeItem('algoritmoQuestProgress');
+        location.reload();
+    }
+}
     </script>
 </body>
 </html>
