@@ -483,15 +483,28 @@
                 },
                 stages: [
                     {
-                        type: "fill",
-                        context: "Complete o código para criar variáveis de um cadastro:",
-                        template: "nome ← {0}\nidade ← {1}\nfidelidade ← {2}",
-                        blanks: [
-                            { answer: ["texto", "string", '"texto"', "'texto'"], placeholder: "tipo texto" },
-                            { answer: ["numero", "inteiro", "25", "30"], placeholder: "número" },
-                            { answer: ["verdadeiro", "falso", "true", "false"], placeholder: "booleano" }
-                        ]
-                    },
+    type: "fill",
+    context: "Complete o código criando variáveis de um cadastro de cliente:",
+    template: "nome ← {0}\nidade ← {1}\nfidelidade ← {2}",
+    blanks: [
+        { 
+            answer: ['"maria"', '"joão"', '"ana"', "'maria'", "'joão'", "'ana'", '"texto"', "'texto'"], 
+            placeholder: 'ex: "Maria"',
+            hint: "Textos devem estar entre aspas!"
+        },
+        { 
+            answer: ["25", "30", "18", "40", "35", "28"], 
+            placeholder: "ex: 25",
+            hint: "Números são digitados sem aspas"
+        },
+        { 
+            answer: ["verdadeiro", "falso", "true", "false"], 
+            placeholder: "verdadeiro ou falso",
+            hint: "Booleanos: verdadeiro ou falso"
+        }
+    ],
+    successMessage: "🎉 Parabéns! É fundamental entender que cada tipo de dado tem sua forma correta:\n• Strings (textos) vão entre aspas: \"exemplo\"\n• Números são digitados livremente: 42\n• Booleanos só podem ser: verdadeiro ou falso"
+},
                     {
                         type: "multiple",
                         context: "Analise o código:",
