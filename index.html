@@ -297,6 +297,22 @@
             text-align: center;
         }
 
+        .fill-blank input.correct {
+            border-color: #00c853;
+            background: #e8f5e9;
+        }
+
+        .fill-blank input.incorrect {
+            border-color: #ff5252;
+            background: #ffebee;
+        }
+
+        .hint-text {
+            font-size: 0.85em;
+            color: #ff5252;
+            margin-top: 5px;
+        }
+
         .draggable-area {
             display: flex;
             flex-direction: column;
@@ -344,6 +360,7 @@
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s;
+            text-align: center;
         }
 
         .match-item.selected {
@@ -357,11 +374,17 @@
             cursor: default;
         }
 
+        .match-item.wrong {
+            border-color: #ff5252;
+            background: #ffebee;
+        }
+
         .feedback {
             margin: 20px 0;
             padding: 15px;
             border-radius: 10px;
             display: none;
+            white-space: pre-line;
         }
 
         .feedback.show {
@@ -451,11 +474,11 @@
 </head>
 <body>
     <div class="container">
-       <header>
-    <h1>🎮 Algoritmo Quest</h1>
-    <p>Domine a lógica de programação jogando!</p>
-    <div class="progress-word" id="progressWord"></div>
-    <button class="btn btn-secondary" onclick="resetProgress()" style="margin-top: 15px;">🔄 Resetar Progresso</button>
+        <header>
+            <h1>🎮 Algoritmo Quest</h1>
+            <p>Domine a lógica de programação jogando!</p>
+            <div class="progress-word" id="progressWord"></div>
+            <button class="btn btn-secondary" onclick="resetProgress()" style="margin-top: 15px;">🔄 Resetar Progresso</button>
         </header>
 
         <div class="world-map" id="worldMap"></div>
@@ -483,28 +506,28 @@
                 },
                 stages: [
                     {
-    type: "fill",
-    context: "Complete o código criando variáveis de um cadastro de cliente:",
-    template: "nome ← {0}\nidade ← {1}\nfidelidade ← {2}",
-    blanks: [
-        { 
-            answer: ['"maria"', '"joão"', '"ana"', "'maria'", "'joão'", "'ana'", '"texto"', "'texto'"], 
-            placeholder: 'ex: "Maria"',
-            hint: "Textos devem estar entre aspas!"
-        },
-        { 
-            answer: ["25", "30", "18", "40", "35", "28"], 
-            placeholder: "ex: 25",
-            hint: "Números são digitados sem aspas"
-        },
-        { 
-            answer: ["verdadeiro", "falso", "true", "false"], 
-            placeholder: "verdadeiro ou falso",
-            hint: "Booleanos: verdadeiro ou falso"
-        }
-    ],
-    successMessage: "🎉 Parabéns! É fundamental entender que cada tipo de dado tem sua forma correta:\n• Strings (textos) vão entre aspas: \"exemplo\"\n• Números são digitados livremente: 42\n• Booleanos só podem ser: verdadeiro ou falso"
-},
+                        type: "fill",
+                        context: "Complete o código criando variáveis de um cadastro de cliente:",
+                        template: "nome ← {0}\nidade ← {1}\nfidelidade ← {2}",
+                        blanks: [
+                            { 
+                                validate: (v) => /^["'].*["']$/.test(v) && v.length > 2,
+                                placeholder: "texto",
+                                errorHint: "Textos devem estar entre aspas! Ex: \"Maria\""
+                            },
+                            { 
+                                validate: (v) => /^\d+$/.test(v),
+                                placeholder: "número",
+                                errorHint: "Digite apenas números, sem aspas. Ex: 25"
+                            },
+                            { 
+                                validate: (v) => ["verdadeiro", "falso", "true", "false"].includes(v.toLowerCase()),
+                                placeholder: "booleano",
+                                errorHint: "Use apenas: verdadeiro ou falso"
+                            }
+                        ],
+                        successMessage: "🎉 Parabéns! Cada tipo de dado tem sua forma:\n\n• Strings (textos) vão entre aspas: \"texto\"\n• Números são digitados livremente: 42\n• Booleanos só podem ser: verdadeiro ou falso"
+                    },
                     {
                         type: "multiple",
                         context: "Analise o código:",
@@ -512,40 +535,60 @@
                         question: "Qual o valor de 'b' no final?",
                         options: ["5", "10", "15", "Erro"],
                         correct: 0,
-                        explanation: "b recebe o valor que 'a' tinha quando foi atribuído (5). Mudar 'a' depois não afeta 'b'."
+                        explanation: "Quando 'b' recebeu 'a', o valor de 'a' era 5. Alterar 'a' depois não muda 'b'.",
+                        successMessage: "🎉 Exato! Variáveis guardam valores, não referências. Quando você faz b ← a, o valor é copiado."
                     },
                     {
                         type: "drag",
-                        context: "Ordene as linhas para criar variáveis de um restaurante:",
-                        question: "Arraste na ordem correta:",
+                        context: "Um sistema precisa criar variáveis para um restaurante. Ordene as linhas de forma lógica:",
+                        question: "Arraste para ordenar (nome → nota → status):",
                         items: [
                             'nome ← "Pizzaria Bella"',
                             'nota ← 4.5',
                             'aberto ← verdadeiro'
                         ],
-                        correctOrder: [0, 1, 2]
+                        correctOrder: [0, 1, 2],
+                        successMessage: "🎉 Muito bem! Organizar variáveis de forma lógica facilita a leitura do código."
                     },
                     {
                         type: "match",
-                        context: "Associe cada tipo com seu exemplo:",
-                        question: "Ligue os pares corretos:",
+                        context: "Cada tipo de dado tem exemplos específicos:",
+                        question: "Associe o tipo com o valor correspondente:",
                         pairs: [
                             { left: "Inteiro", right: "42" },
                             { left: "Real", right: "3.14" },
                             { left: "Texto", right: '"Olá"' },
                             { left: "Booleano", right: "verdadeiro" }
-                        ]
+                        ],
+                        successMessage: "🎉 Perfeito! Reconhecer tipos de dados é essencial:\n\n• Inteiro: números sem decimal\n• Real: números com decimal\n• Texto: sempre entre aspas\n• Booleano: verdadeiro/falso"
                     },
                     {
                         type: "fill",
-                        context: "Complete para armazenar dados de uma academia:",
+                        context: "Complete as variáveis para um sistema de academia:",
                         template: "aluno ← {0}\npeso ← {1}\naltura ← {2}\nativo ← {3}",
                         blanks: [
-                            { answer: ["texto", "string", '"nome"'], placeholder: "nome (tipo)" },
-                            { answer: ["75", "80", "70", "numero"], placeholder: "kg" },
-                            { answer: ["1.75", "1.80", "numero"], placeholder: "metros" },
-                            { answer: ["verdadeiro", "falso", "true", "false"], placeholder: "status" }
-                        ]
+                            { 
+                                validate: (v) => /^["'].*["']$/.test(v) && v.length > 2,
+                                placeholder: "texto",
+                                errorHint: "Nome do aluno entre aspas!"
+                            },
+                            { 
+                                validate: (v) => /^\d+(\.\d+)?$/.test(v),
+                                placeholder: "número",
+                                errorHint: "Peso em kg (número). Ex: 75 ou 75.5"
+                            },
+                            { 
+                                validate: (v) => /^\d+\.\d+$/.test(v),
+                                placeholder: "decimal",
+                                errorHint: "Altura em metros (decimal). Ex: 1.75"
+                            },
+                            { 
+                                validate: (v) => ["verdadeiro", "falso", "true", "false"].includes(v.toLowerCase()),
+                                placeholder: "booleano",
+                                errorHint: "Status: verdadeiro ou falso"
+                            }
+                        ],
+                        successMessage: "🎉 Excelente! Você dominou os tipos de dados:\n\n• Texto (string): \"nome\"\n• Número inteiro: 75\n• Número decimal: 1.75\n• Booleano: verdadeiro/falso\n\nPronto para o Boss!"
                     }
                 ]
             },
@@ -564,42 +607,77 @@
                 id: 3,
                 title: "Operadores",
                 letter: "G",
+                intro: {
+                    title: "Operadores",
+                    description: "Operadores permitem fazer cálculos, comparações e combinações lógicas.",
+                    example: `soma ← 5 + 3\nmaior ← (a > b)\nambos ← (x E y)`
+                },
                 stages: []
             },
             {
                 id: 4,
                 title: "Decisão (if/else)",
                 letter: "O",
+                intro: {
+                    title: "Estruturas de Decisão",
+                    description: "Permitem que o programa tome caminhos diferentes baseado em condições.",
+                    example: `SE idade >= 18 ENTÃO\n    escrever("Maior de idade")\nSENÃO\n    escrever("Menor de idade")`
+                },
                 stages: []
             },
             {
                 id: 5,
                 title: "Decisão Múltipla",
                 letter: "R",
+                intro: {
+                    title: "Decisão Múltipla",
+                    description: "Quando há várias opções possíveis, usamos estruturas de múltipla escolha.",
+                    example: `ESCOLHA opcao\n    CASO 1: escrever("Um")\n    CASO 2: escrever("Dois")\n    SENÃO: escrever("Outro")`
+                },
                 stages: []
             },
             {
                 id: 6,
                 title: "Repetição (for)",
                 letter: "I",
+                intro: {
+                    title: "Repetição com Contador",
+                    description: "Quando sabemos quantas vezes repetir, usamos o laço PARA.",
+                    example: `PARA i DE 1 ATÉ 10 FAÇA\n    escrever(i)\nFIM-PARA`
+                },
                 stages: []
             },
             {
                 id: 7,
                 title: "Repetição (while)",
                 letter: "T",
+                intro: {
+                    title: "Repetição Condicional",
+                    description: "Quando não sabemos quantas vezes repetir, usamos ENQUANTO.",
+                    example: `ENQUANTO saldo > 0 FAÇA\n    saldo ← saldo - 10\nFIM-ENQUANTO`
+                },
                 stages: []
             },
             {
                 id: 8,
                 title: "Listas/Vetores",
                 letter: "M",
+                intro: {
+                    title: "Listas e Vetores",
+                    description: "Armazenam múltiplos valores em uma única variável.",
+                    example: `notas ← [7.5, 8.0, 9.5]\nescrever(notas[0])  // 7.5`
+                },
                 stages: []
             },
             {
                 id: 9,
                 title: "Funções",
                 letter: "O",
+                intro: {
+                    title: "Funções",
+                    description: "Blocos de código reutilizáveis que executam tarefas específicas.",
+                    example: `FUNÇÃO soma(a, b)\n    RETORNAR a + b\nFIM-FUNÇÃO\n\nresultado ← soma(5, 3)`
+                },
                 stages: []
             }
         ];
@@ -626,6 +704,13 @@
 
         function saveProgress() {
             localStorage.setItem('algoritmoQuestProgress', JSON.stringify(gameState));
+        }
+
+        function resetProgress() {
+            if (confirm('Tem certeza? Todo o progresso será perdido!')) {
+                localStorage.removeItem('algoritmoQuestProgress');
+                location.reload();
+            }
         }
 
         function renderProgressWord() {
@@ -703,7 +788,7 @@
                 `;
                 bodyHtml += '</div>';
             } else {
-                bodyHtml += '<p style="text-align:center; color:#999;">Em breve...</p>';
+                bodyHtml += '<p style="text-align:center; color:#999; margin: 20px 0;">🚧 Em construção...</p>';
             }
 
             bodyHtml += `
@@ -721,6 +806,9 @@
             const world = WORLDS.find(w => w.id === worldId);
             const stage = world.stages[stageId];
             currentStageData = { worldId, stageId, stage };
+            selectedOption = null;
+            matchSelections = { left: null, right: null };
+            matchedPairs = [];
 
             let bodyHtml = `
                 <div class="question-area">
@@ -741,12 +829,13 @@
                 bodyHtml += '</div>';
 
             } else if (stage.type === 'fill') {
-                let template = stage.template;
+                let template = stage.template.replace(/\n/g, '<br>');
                 stage.blanks.forEach((blank, i) => {
                     template = template.replace(`{${i}}`, 
                         `<input type="text" id="blank${i}" placeholder="${blank.placeholder}" />`);
                 });
                 bodyHtml += `<div class="fill-blank">${template}</div>`;
+                bodyHtml += `<div id="hintsArea"></div>`;
 
             } else if (stage.type === 'drag') {
                 bodyHtml += '<div class="draggable-area" id="dragArea">';
@@ -762,20 +851,20 @@
 
             } else if (stage.type === 'match') {
                 bodyHtml += '<div class="match-container">';
-                bodyHtml += '<div class="match-column">';
+                bodyHtml += '<div class="match-column" id="matchLeft">';
                 stage.pairs.forEach((pair, i) => {
                     bodyHtml += `
-                        <div class="match-item" onclick="selectMatch('left', ${i})">
+                        <div class="match-item" data-index="${i}" onclick="selectMatch('left', ${i}, this)">
                             ${pair.left}
                         </div>
                     `;
                 });
-                bodyHtml += '</div><div class="match-column">';
+                bodyHtml += '</div><div class="match-column" id="matchRight">';
                 const shuffledRight = [...stage.pairs].sort(() => Math.random() - 0.5);
-                shuffledRight.forEach((pair, i) => {
+                shuffledRight.forEach((pair) => {
                     const originalIndex = stage.pairs.findIndex(p => p.right === pair.right);
                     bodyHtml += `
-                        <div class="match-item" onclick="selectMatch('right', ${originalIndex})">
+                        <div class="match-item" data-index="${originalIndex}" onclick="selectMatch('right', ${originalIndex}, this)">
                             ${pair.right}
                         </div>
                     `;
@@ -808,8 +897,8 @@
         }
 
         function setupDragAndDrop() {
-            const items = document.querySelectorAll('.drag-item');
             const container = document.getElementById('dragArea');
+            const items = container.querySelectorAll('.drag-item');
 
             items.forEach(item => {
                 item.addEventListener('dragstart', (e) => {
@@ -819,17 +908,20 @@
 
                 item.addEventListener('dragend', () => {
                     item.classList.remove('dragging');
+                    draggedElement = null;
                 });
+            });
 
-                item.addEventListener('dragover', (e) => {
-                    e.preventDefault();
-                    const afterElement = getDragAfterElement(container, e.clientY);
+            container.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                const afterElement = getDragAfterElement(container, e.clientY);
+                if (draggedElement) {
                     if (afterElement == null) {
                         container.appendChild(draggedElement);
                     } else {
                         container.insertBefore(draggedElement, afterElement);
                     }
-                });
+                }
             });
         }
 
@@ -846,37 +938,45 @@
             }, { offset: Number.NEGATIVE_INFINITY }).element;
         }
 
-        function selectMatch(side, index) {
-            if (matchedPairs.includes(index)) return;
+        function selectMatch(side, index, element) {
+            if (matchedPairs.includes(index) && side === 'left') return;
+            if (matchedPairs.some(p => p === index) && side === 'right') return;
 
-            matchSelections[side] = index;
-            
-            document.querySelectorAll('.match-item').forEach(el => {
-                el.classList.remove('selected');
+            const column = side === 'left' ? 'matchLeft' : 'matchRight';
+            document.querySelectorAll(`#${column} .match-item`).forEach(el => {
+                if (!el.classList.contains('matched')) {
+                    el.classList.remove('selected');
+                }
             });
 
-            if (matchSelections.left !== null) {
-                document.querySelectorAll('.match-column')[0].children[matchSelections.left].classList.add('selected');
-            }
-            if (matchSelections.right !== null) {
-                const rightItems = document.querySelectorAll('.match-column')[1].children;
-                Array.from(rightItems).find((el, i) => {
-                    if (el.textContent.trim() === currentStageData.stage.pairs[matchSelections.right].right) {
-                        el.classList.add('selected');
-                    }
-                });
-            }
+            element.classList.add('selected');
+            matchSelections[side] = index;
 
             if (matchSelections.left !== null && matchSelections.right !== null) {
-                if (matchSelections.left === matchSelections.right) {
-                    matchedPairs.push(matchSelections.left);
-                    document.querySelectorAll('.match-item.selected').forEach(el => {
-                        el.classList.remove('selected');
-                        el.classList.add('matched');
-                    });
-                }
-                matchSelections = { left: null, right: null };
+                checkMatchPair();
             }
+        }
+
+        function checkMatchPair() {
+            const leftEl = document.querySelector(`#matchLeft .match-item[data-index="${matchSelections.left}"]`);
+            const rightEl = document.querySelector(`#matchRight .match-item[data-index="${matchSelections.right}"]`);
+
+            if (matchSelections.left === matchSelections.right) {
+                matchedPairs.push(matchSelections.left);
+                leftEl.classList.remove('selected');
+                leftEl.classList.add('matched');
+                rightEl.classList.remove('selected');
+                rightEl.classList.add('matched');
+            } else {
+                leftEl.classList.add('wrong');
+                rightEl.classList.add('wrong');
+                setTimeout(() => {
+                    leftEl.classList.remove('selected', 'wrong');
+                    rightEl.classList.remove('selected', 'wrong');
+                }, 800);
+            }
+
+            matchSelections = { left: null, right: null };
         }
 
         function checkStageAnswer() {
@@ -892,26 +992,46 @@
                 isCorrect = selectedOption === stage.correct;
                 
                 document.querySelectorAll('.option').forEach((el, i) => {
+                    el.style.pointerEvents = 'none';
                     if (i === stage.correct) el.classList.add('correct');
                     if (i === selectedOption && !isCorrect) el.classList.add('incorrect');
                 });
 
                 feedback.className = `feedback show ${isCorrect ? 'correct' : 'incorrect'}`;
-                feedback.textContent = isCorrect ? '✅ Correto!' : `❌ Incorreto. ${stage.explanation || 'Tente novamente!'}`;
+                feedback.textContent = isCorrect 
+                    ? (stage.successMessage || '✅ Correto!') 
+                    : `❌ Incorreto. ${stage.explanation || 'Tente novamente!'}`;
 
             } else if (stage.type === 'fill') {
-                const answers = [];
+                const results = [];
+                const hintsArea = document.getElementById('hintsArea');
+                hintsArea.innerHTML = '';
+
                 stage.blanks.forEach((blank, i) => {
                     const input = document.getElementById(`blank${i}`);
-                    const value = input.value.trim().toLowerCase();
-                    const correct = blank.answer.some(ans => ans.toLowerCase() === value);
-                    answers.push(correct);
-                    input.style.borderColor = correct ? '#00c853' : '#ff5252';
+                    const value = input.value.trim();
+                    
+                    let correct = false;
+                    if (blank.validate) {
+                        correct = blank.validate(value);
+                    } else if (blank.answer) {
+                        correct = blank.answer.some(ans => ans.toLowerCase() === value.toLowerCase());
+                    }
+
+                    results.push(correct);
+                    input.classList.remove('correct', 'incorrect');
+                    input.classList.add(correct ? 'correct' : 'incorrect');
+
+                    if (!correct && blank.errorHint) {
+                        hintsArea.innerHTML += `<p class="hint-text">⚠️ Campo ${i + 1}: ${blank.errorHint}</p>`;
+                    }
                 });
                 
-                isCorrect = answers.every(a => a);
+                isCorrect = results.every(r => r);
                 feedback.className = `feedback show ${isCorrect ? 'correct' : 'incorrect'}`;
-                feedback.textContent = isCorrect ? '✅ Todas corretas!' : '❌ Verifique os campos em vermelho.';
+                feedback.textContent = isCorrect 
+                    ? (stage.successMessage || '✅ Todas corretas!') 
+                    : '❌ Corrija os campos destacados em vermelho.';
 
             } else if (stage.type === 'drag') {
                 const items = Array.from(document.querySelectorAll('.drag-item'));
@@ -919,12 +1039,16 @@
                 isCorrect = JSON.stringify(currentOrder) === JSON.stringify(stage.correctOrder);
                 
                 feedback.className = `feedback show ${isCorrect ? 'correct' : 'incorrect'}`;
-                feedback.textContent = isCorrect ? '✅ Ordem correta!' : '❌ Ordem incorreta. Tente novamente!';
+                feedback.textContent = isCorrect 
+                    ? (stage.successMessage || '✅ Ordem correta!') 
+                    : '❌ Ordem incorreta. Arraste para reorganizar.';
 
             } else if (stage.type === 'match') {
                 isCorrect = matchedPairs.length === stage.pairs.length;
                 feedback.className = `feedback show ${isCorrect ? 'correct' : 'incorrect'}`;
-                feedback.textContent = isCorrect ? '✅ Todos os pares corretos!' : '❌ Continue associando os pares.';
+                feedback.textContent = isCorrect 
+                    ? (stage.successMessage || '✅ Todos os pares corretos!') 
+                    : `❌ Faltam ${stage.pairs.length - matchedPairs.length} par(es). Continue associando!`;
             }
 
             if (isCorrect) {
@@ -938,26 +1062,37 @@
                 saveProgress();
                 
                 setTimeout(() => {
-                    openWorld(worldId);
-                }, 1500);
+                    const world = WORLDS.find(w => w.id === worldId);
+                    if (stageId < world.stages.length - 1) {
+                        openStage(worldId, stageId + 1);
+                    } else {
+                        openWorld(worldId);
+                    }
+                }, 2500);
             }
         }
 
         function openBoss(worldId) {
+            const world = WORLDS.find(w => w.id === worldId);
             const bodyHtml = `
                 <div class="boss-banner">👑 BOSS DO MUNDO ${worldId} 👑</div>
-                <p style="text-align:center; margin:20px 0;">Responda 5 questões aleatórias para conquistar a letra <strong>${WORLDS[worldId-1].letter}</strong>!</p>
+                <p style="text-align:center; margin:20px 0;">
+                    Você completou todas as casas!<br><br>
+                    Enfrente o Boss para conquistar a letra <strong style="font-size:1.5em; color:#667eea;">${world.letter}</strong>
+                </p>
                 <div class="action-buttons">
-                    <button class="btn btn-success" onclick="completeBoss(${worldId})">Enfrentar Boss</button>
+                    <button class="btn btn-success" onclick="completeBoss(${worldId})">⚔️ Enfrentar Boss</button>
                     <button class="btn btn-secondary" onclick="openWorld(${worldId})">Voltar</button>
                 </div>
             `;
 
-            document.getElementById('modalTitle').textContent = `Boss - Mundo ${worldId}`;
+            document.getElementById('modalTitle').textContent = `Boss - ${world.title}`;
             document.getElementById('modalBody').innerHTML = bodyHtml;
         }
 
         function completeBoss(worldId) {
+            const world = WORLDS.find(w => w.id === worldId);
+            
             if (!gameState.completedWorlds.includes(worldId)) {
                 gameState.completedWorlds.push(worldId);
                 gameState.unlockedLetters.push(worldId - 1);
@@ -968,7 +1103,9 @@
             renderProgressWord();
             renderWorldMap();
             
-            alert(`🎉 Parabéns! Você conquistou a letra "${WORLDS[worldId-1].letter}"!`);
+            setTimeout(() => {
+                alert(`🎉 PARABÉNS!\n\nVocê conquistou a letra "${world.letter}"!\n\nContinue sua jornada para completar: ALGORITMO`);
+            }, 300);
         }
 
         function closeModal() {
@@ -979,15 +1116,10 @@
             currentStageData = null;
         }
 
+        // Inicialização
         loadProgress();
         renderProgressWord();
         renderWorldMap();
-        function resetProgress() {
-    if (confirm('Tem certeza? Todo o progresso será perdido!')) {
-        localStorage.removeItem('algoritmoQuestProgress');
-        location.reload();
-    }
-}
     </script>
 </body>
 </html>
