@@ -376,9 +376,213 @@
         }
 
         function openGalaxy1() {
-            // Implementado em galaxy1.js
-            if (typeof startGalaxy1 === 'function') startGalaxy1();
+            startGalaxy1();
         }
+        // ==================== GALÁXIA 1 ====================
+        let galaxySession = null;
+
+        function shuffle(arr) {
+            const a = [...arr];
+            for (let i = a.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
+
+        function startGalaxy1() {
+            // Sorteia 10 de M1 + 15 de M2 + 15 de M3
+            const m1 = shuffle(GALAXY_1.bankM1).slice(0, 10);
+            const m2 = shuffle(GALAXY_1.bankM2).slice(0, 15);
+            const m3 = shuffle(GALAXY_1.bankM3).slice(0, 15);
+            const questions = shuffle([...m1, ...m2, ...m3]);
+
+            // Embaralha opções de múltipla escolha
+            questions.forEach(q => {
+                if (q.type === 'multiple') {
+                    const indices = q.options.map((_, i) => i);
+                    for (let i = indices.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [indices[i], indices[j]] = [indices[j], indices[i]];
+                    }
+                    q._shuffledOptions = indices.map(i => q.options[i]);
+                    q._shuffledCorrect = indices.indexOf(q.correct);
+                }
+            });
+
+            galaxySession = {
+                questions,
+                current: 0,
+                correct: 0,
+                selectedOption: null
+            };
+
+            document.getElementById('dangerZoneView').style.display = 'none';
+            document.getElementById('galaxyView').style.display = 'block';
+            renderGalaxyQuestion();
+        }
+
+        function renderGalaxyQuestion() {
+            const s = galaxySession;
+            const q = s.questions[s.current];
+            const total = s.questions.length;
+
+            // Progress bar
+            const pct = (s.current / total) * 100;
+            document.getElementById('galaxyProgressFill').style.width = pct + '%';
+            document.getElementById('galaxyStatus').textContent =
+                `Questão ${s.current + 1} de ${total} • Acertos: ${s.correct}`;
+
+            let html = '';
+
+            if (q.type === 'multiple') {
+                html += `<div class="gq-context">${q.question}</div>`;
+                if (q.code) html += `<div class="question-code">${q.code}</div>`;
+                html += '<div class="gq-options">';
+                (q._shuffledOptions || q.options).forEach((opt, i) => {
+                    html += `<div class="gq-option" id="gqOpt${i}" onclick="selectGalaxyOption(${i})">
+                        <span class="option-letter">${String.fromCharCode(65 + i)}</span>
+                        <span>${opt}</span>
+                    </div>`;
+                });
+                html += '</div>';
+            } else if (q.type === 'write') {
+                html += `<div class="gq-context">${q.context}</div>`;
+                if (q.code) html += `<div class="question-code">${q.code}</div>`;
+                html += `<div class="gq-prompt">${q.prompt}</div>`;
+                html += `<textarea id="gqWrite" class="write-input" rows="3" placeholder="Digite sua resposta..." spellcheck="false"></textarea>`;
+            }
+
+            html += `<div id="gqFeedback" class="feedback"></div>`;
+            html += `<div class="action-buttons">
+                <button class="btn btn-primary" id="gqCheckBtn" onclick="checkGalaxyAnswer()">✔️ Verificar</button>
+                <button class="btn btn-success" id="gqNextBtn" style="display:none" onclick="nextGalaxyQuestion()">Continuar →</button>
+            </div>`;
+
+            document.getElementById('galaxyQuestionArea').innerHTML = html;
+            galaxySession.selectedOption = null;
+        }
+
+        function selectGalaxyOption(i) {
+            galaxySession.selectedOption = i;
+            document.querySelectorAll('.gq-option').forEach((el, idx) => {
+                el.classList.toggle('selected', idx === i);
+            });
+        }
+
+        function normalizeAnswer(s) {
+            return s.trim()
+                .replace(/\s+/g, ' ')
+                .toLowerCase()
+                .replace(/←/g, '<-')
+                .replace(/\s*<-\s*/g, '<-')
+                .replace(/\s*=\s*/g, '=')
+                .replace(/\s*\*\s*/g, '*')
+                .replace(/\s*\+\s*/g, '+')
+                .replace(/\s*-\s*/g, '-')
+                .replace(/\s*\/\s*/g, '/')
+                .replace(/\s*%\s*/g, '%')
+                .replace(/\s*\(\s*/g, '(')
+                .replace(/\s*\)\s*/g, ')');
+        }
+
+        function checkGalaxyAnswer() {
+            const s = galaxySession;
+            const q = s.questions[s.current];
+            const fb = document.getElementById('gqFeedback');
+            let correct = false;
+
+            if (q.type === 'multiple') {
+                if (s.selectedOption === null) { alert('Selecione uma opção!'); return; }
+                const correctIdx = q._shuffledCorrect !== undefined ? q._shuffledCorrect : q.correct;
+                correct = s.selectedOption === correctIdx;
+                if (!correct) {
+                    document.getElementById(`gqOpt${s.selectedOption}`).classList.add('incorrect');
+                    fb.innerHTML = `❌ Incorreto. 💡 ${q.tip}`;
+                    fb.className = 'feedback show incorrect';
+                    setTimeout(() => {
+                        document.querySelectorAll('.gq-option').forEach(el => el.classList.remove('incorrect', 'selected'));
+                        s.selectedOption = null;
+                        fb.className = 'feedback';
+                    }, 2000);
+                    return;
+                }
+                document.getElementById(`gqOpt${s.selectedOption}`).classList.add('correct');
+            } else if (q.type === 'write') {
+                const input = document.getElementById('gqWrite');
+                if (!input || !input.value.trim()) { alert('Digite sua resposta!'); return; }
+                const userAnswer = normalizeAnswer(input.value);
+                correct = q.answers.map(a => normalizeAnswer(a)).some(a => a === userAnswer);
+                if (!correct) {
+                    input.style.borderColor = '#ff4444';
+                    fb.innerHTML = `❌ Não é bem isso. 💡 ${q.tip}`;
+                    fb.className = 'feedback show incorrect';
+                    setTimeout(() => {
+                        input.style.borderColor = '';
+                        fb.className = 'feedback';
+                    }, 2500);
+                    return;
+                }
+                input.style.borderColor = '#00c853';
+            }
+
+            // Acertou
+            s.correct++;
+            fb.innerHTML = `✅ ${q.successMessage || 'Correto!'}`;
+            fb.className = 'feedback show correct';
+            document.getElementById('gqCheckBtn').style.display = 'none';
+            document.getElementById('gqNextBtn').style.display = 'inline-flex';
+        }
+
+        function nextGalaxyQuestion() {
+            const s = galaxySession;
+            s.current++;
+            if (s.current >= s.questions.length) {
+                showGalaxyResult();
+            } else {
+                renderGalaxyQuestion();
+            }
+        }
+
+        function showGalaxyResult() {
+            const s = galaxySession;
+            const total = s.questions.length;
+            const passing = GALAXY_1.passingScore;
+            const approved = s.correct >= passing;
+
+            document.getElementById('galaxyView').style.display = 'none';
+            document.getElementById('galaxyResult').style.display = 'block';
+
+            document.getElementById('galaxyResultIcon').textContent = approved ? '🌌' : '💫';
+            document.getElementById('galaxyResultTitle').textContent = approved ? 'GALÁXIA CONQUISTADA!' : 'Quase lá...';
+            document.getElementById('galaxyResultScore').textContent = `${s.correct}/${total}`;
+            document.getElementById('galaxyResultMsg').textContent = approved
+                ? `Você acertou ${s.correct} de ${total}. A letra "G" da Galáxia Alpha é sua!`
+                : `Você acertou ${s.correct} de ${total}. Precisa de ${passing} para passar. Tente novamente!`;
+
+            document.getElementById('galaxyResultScore').className =
+                'galaxy-result-score ' + (approved ? 'approved' : 'failed');
+
+            if (approved) {
+                if (!globalProgress.galaxies) globalProgress.galaxies = {};
+                globalProgress.galaxies[1] = { completed: true };
+                saveProgress();
+            }
+        }
+
+        function retryGalaxy1() {
+            document.getElementById('galaxyResult').style.display = 'none';
+            startGalaxy1();
+        }
+
+        function backToDangerZone() {
+            document.getElementById('galaxyResult').style.display = 'none';
+            document.getElementById('galaxyView').style.display = 'none';
+            document.getElementById('dangerZoneView').style.display = 'block';
+            renderDangerZone();
+        }
+
+
 
         function closeModal() {
             document.getElementById('gameModal').classList.remove('show');

@@ -128,6 +128,31 @@
     </div>
     
 
+    <!-- GALAXY VIEW -->
+    <div id="galaxyView" style="display:none">
+        <div class="galaxy-view-container">
+            <div class="galaxy-progress-bar">
+                <div class="galaxy-progress-fill" id="galaxyProgressFill"></div>
+            </div>
+            <div class="galaxy-status" id="galaxyStatus">Questão 1 de 40 • Acertos: 0</div>
+            <div class="galaxy-question-area" id="galaxyQuestionArea"></div>
+        </div>
+    </div>
+
+    <!-- GALAXY RESULT -->
+    <div id="galaxyResult" style="display:none">
+        <div class="galaxy-result-container">
+            <div class="galaxy-result-icon" id="galaxyResultIcon"></div>
+            <h2 id="galaxyResultTitle"></h2>
+            <div class="galaxy-result-score" id="galaxyResultScore"></div>
+            <p id="galaxyResultMsg"></p>
+            <div class="galaxy-result-buttons">
+                <button class="btn-galaxy-retry" onclick="retryGalaxy1()">🔄 Tentar Novamente</button>
+                <button class="btn-galaxy-back" onclick="backToDangerZone()">← Danger Zone</button>
+            </div>
+        </div>
+    </div>
+
     <script src="js/worlds.js"></script>
     <script src="js/world1.js"></script>
     <script src="js/world2.js"></script>
