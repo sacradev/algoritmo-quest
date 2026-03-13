@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algoritmo Quest</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- HOME VIEW -->
+    <div id="homeView">
+        <div class="home-container">
+            <header class="home-header">
+                <h1>🎮 Algoritmo Quest</h1>
+                <p>Domine a lógica de programação!</p>
+                <div class="home-progress-word" id="homeProgressWord"></div>
+            </header>
+
+            <div class="worlds-grid" id="worldsGrid"></div>
+            
+            <div class="reset-container">
+                <button class="btn-reset" onclick="resetProgress()">🔄 Resetar Progresso</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAP VIEW -->
+    <div class="map-view" id="mapView">
+        <div class="container">
+            <header>
+                <button class="btn btn-secondary" onclick="goToHome()" style="margin-bottom: 12px;">← Voltar</button>
+                <h1 id="mapTitle">🎮 Mundo 1</h1>
+                <p id="mapSubtitle" style="color: rgba(255,255,255,0.8);">Variáveis e Tipos</p>
+                <div class="progress-word" id="progressWord"></div>
+            </header>
+            <div class="map-container" id="mapContainer"></div>
+            <div class="progress-indicator" id="progressIndicator">📊 0/10 casas</div>
+        </div>
+    </div>
+
+    <!-- MODAL -->
+    <div class="modal" id="gameModal">
+        <div class="modal-content" id="modalContent">
+            <span class="modal-close" onclick="closeModal()">✕</span>
+            <div class="modal-header">
+                <h2 id="modalTitle"></h2>
+                <p class="subtitle" id="modalSubtitle"></p>
+            </div>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- DARK SIDE TRANSITION -->
+    <div class="dark-transition" id="darkTransition">
+        <div class="smoke">💨</div>
+        <div class="smoke">💨</div>
+        <div class="smoke">💨</div>
+        <div class="smoke">💨</div>
+        <div class="smoke">💨</div>
+        <div class="skull">💀</div>
+        <div class="title">Dark Side</div>
+        <div class="subtitle">A partir daqui, sem piedade.</div>
+        <button class="enter-btn" id="enterDarkBtn">⚔️ Entrar</button>
+        <div class="flames">
+            <span class="flame">🔥</span>
+            <span class="flame">🔥</span>
+            <span class="flame">🔥</span>
+            <span class="flame">🔥</span>
+            <span class="flame">🔥</span>
+            <span class="flame">🔥</span>
+            <span class="flame">🔥</span>
+        </div>
+    </div>
+
+    <!-- BOSS TRANSITION -->
+    <div class="boss-transition" id="bossTransition">
+        <div class="lightning">⚡</div>
+        <div class="lightning">⚡</div>
+        <div class="lightning">⚡</div>
+        <div class="lightning">⚡</div>
+        <div class="sparks">
+            <span class="spark">✨</span>
+            <span class="spark">✨</span>
+            <span class="spark">✨</span>
+            <span class="spark">✨</span>
+            <span class="spark">✨</span>
+            <span class="spark">✨</span>
+        </div>
+        <div class="crown">👑</div>
+        <div class="boss-title">Confronto Final</div>
+        <div class="boss-subtitle">Prove seu domínio!</div>
+        <button class="challenge-btn" id="challengeBossBtn">⚔️ Aceitar Desafio</button>
+        <div class="ground-glow"></div>
+    </div>
+
+    <!-- VICTORY OVERLAY -->
+    <div class="victory-overlay" id="victoryOverlay">
+        <div class="big-letter" id="victoryLetter">A</div>
+        <div class="victory-title">Letra Conquistada!</div>
+        <div class="victory-sub" id="victorySub">Você dominou Variáveis e Tipos!</div>
+        <button class="continue-btn" id="continueBtn" onclick="closeVictory()">🚀 Continuar</button>
+    </div>
+    
+
+    <script src="js/worlds.js"></script>
+    <script src="js/world1.js"></script>
+    <script src="js/world2.js"></script>
+    <script src="js/world3.js"></script>
+    <script src="js/engine.js"></script>
+
+</body>
+</html>
