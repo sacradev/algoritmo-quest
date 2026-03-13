@@ -110,6 +110,11 @@
                 `;
             });
             document.getElementById('worldsGrid').innerHTML = html;
+
+            // Buraco negro da Danger Zone
+            const m3Done = getWorldState(3).worldCompleted;
+            document.getElementById('blackHole').className = 'black-hole' + (m3Done ? ' unlocked' : ' locked');
+            document.getElementById('blackHoleLabel').textContent = m3Done ? '🌌 Danger Zone' : '🔒 Danger Zone';
         }
 
         function openWorld(worldId) {
@@ -310,6 +315,69 @@
             document.getElementById('modalTitle').textContent = isDark ? '😈 Atenção' : '📖 Conceito';
             document.getElementById('modalSubtitle').textContent = isDark ? 'Dark Side' : 'Zona Clara';
             document.getElementById('modalBody').innerHTML = html;
+        }
+
+        function openDangerZone() {
+            const m3Done = getWorldState(3).worldCompleted;
+            if (!m3Done) {
+                alert('⚠️ Complete o Mundo 3 — Operadores — para acessar a Danger Zone!');
+                return;
+            }
+            document.getElementById('homeView').style.display = 'none';
+            document.getElementById('dangerZoneView').style.display = 'block';
+            renderDangerZone();
+        }
+
+        function closeDangerZone() {
+            document.getElementById('dangerZoneView').style.display = 'none';
+            document.getElementById('homeView').style.display = 'block';
+        }
+
+        function renderDangerZone() {
+            const galaxies = [
+                { id: 1, name: 'Galáxia Alpha', subtitle: 'M1 + M2 + M3', requiredWorld: 3, color: 'galaxy-1' },
+                { id: 2, name: 'Galáxia Beta', subtitle: 'Mundo 4', requiredWorld: 4, color: 'galaxy-2' },
+                { id: 3, name: 'Galáxia Gamma', subtitle: 'Mundo 5', requiredWorld: 5, color: 'galaxy-3' },
+                { id: 4, name: 'Galáxia Delta', subtitle: 'Mundo 6', requiredWorld: 6, color: 'galaxy-4' },
+                { id: 5, name: 'Galáxia Epsilon', subtitle: 'Mundo 7', requiredWorld: 7, color: 'galaxy-5' },
+                { id: 6, name: 'Galáxia Zeta', subtitle: 'Mundo 8', requiredWorld: 8, color: 'galaxy-6' },
+                { id: 7, name: 'Galáxia Omega', subtitle: 'Mundo 9', requiredWorld: 9, color: 'galaxy-7' },
+            ];
+            const word = 'GALÁXIA';
+            document.getElementById('dangerProgressWord').innerHTML = word.split('').map((l, i) => {
+                const done = getGalaxyState(i + 1).completed;
+                return `<span class="${done ? 'unlocked' : ''}">${done ? l : '?'}</span>`;
+            }).join('');
+
+            let html = '';
+            galaxies.forEach(g => {
+                const unlocked = getWorldState(g.requiredWorld).worldCompleted;
+                const done = getGalaxyState(g.id).completed;
+                html += `
+                    <div class="galaxy-cell" onclick="${unlocked ? `openGalaxy(${g.id})` : `alert('Complete o Mundo ${g.requiredWorld} primeiro!')`}">
+                        <div class="nebula ${g.color} ${done ? 'completed' : ''} ${!unlocked ? 'locked' : ''}">
+                            <div class="nebula-core"></div>
+                            ${done ? '<div class="nebula-check">✓</div>' : ''}
+                        </div>
+                        <div class="galaxy-name">${unlocked ? g.name : '???'}</div>
+                        <div class="galaxy-subtitle">${unlocked ? g.subtitle : '🔒'}</div>
+                    </div>
+                `;
+            });
+            document.getElementById('galaxiesGrid').innerHTML = html;
+        }
+
+        function getGalaxyState(id) {
+            return globalProgress.galaxies?.[id] || { completed: false, attempts: 0 };
+        }
+
+        function openGalaxy(id) {
+            if (id === 1) openGalaxy1();
+        }
+
+        function openGalaxy1() {
+            // Implementado em galaxy1.js
+            if (typeof startGalaxy1 === 'function') startGalaxy1();
         }
 
         function closeModal() {

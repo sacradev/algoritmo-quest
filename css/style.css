@@ -741,3 +741,223 @@
             .stage { width: 70px; height: 70px; }
             .stage.boss { width: 85px; height: 85px; }
         }
+
+        /* ===== RESPONSIVIDADE MOBILE ===== */
+        @media (max-width: 600px) {
+            /* Modal */
+            .modal-content {
+                padding: 16px;
+                border-radius: 12px;
+                max-height: 92vh;
+            }
+            .modal-header h2 { font-size: 1.2em; }
+
+            /* Opções de múltipla escolha */
+            .option { padding: 10px 12px; font-size: 0.9em; }
+
+            /* Código */
+            .question-code { font-size: 0.75em; padding: 10px; }
+
+            /* Boss */
+            .boss-container { padding: 12px; }
+            .boss-header { padding: 12px; border-radius: 10px; }
+            .boss-header h2 { font-size: 1em; }
+            .boss-question { font-size: 0.9em; padding: 12px; }
+            .boss-option { padding: 10px 12px; font-size: 0.85em; }
+
+            /* Transições dark/boss centralizadas */
+            .dark-message, .boss-message {
+                text-align: center;
+                padding: 20px;
+                width: 90%;
+                max-width: 340px;
+            }
+            .dark-message h2, .boss-message h2 { font-size: 1.3em; }
+            .dark-message p, .boss-message p { font-size: 0.9em; }
+
+            /* Mapa */
+            .map-view { padding: 10px; }
+            .map-container { padding-bottom: 60px; }
+
+            /* Botões de ação */
+            .action-buttons { flex-direction: column; gap: 8px; }
+            .action-buttons .btn { width: 100%; }
+
+            /* Escrita livre */
+            .write-input { font-size: 0.85em; }
+        }
+        /* ===== DANGER ZONE ===== */
+        .danger-zone-entry {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 40px;
+            cursor: pointer;
+            padding-bottom: 40px;
+        }
+
+        /* BURACO NEGRO */
+        .black-hole {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s;
+        }
+        .black-hole:hover { transform: scale(1.08); }
+
+        .bh-core {
+            position: absolute;
+            width: 44px;
+            height: 44px;
+            background: radial-gradient(circle, #000 60%, #1a0030 100%);
+            border-radius: 50%;
+            z-index: 3;
+            box-shadow: 0 0 20px 8px #000;
+        }
+
+        .bh-glow {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, transparent 40%, rgba(120,0,255,0.3) 70%, transparent 100%);
+            border-radius: 50%;
+            z-index: 2;
+            animation: bhPulse 2s ease-in-out infinite;
+        }
+
+        .bh-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            animation: bhSpin linear infinite;
+        }
+        .bh-ring-1 {
+            width: 80px; height: 80px;
+            border-top-color: rgba(180, 0, 255, 0.8);
+            border-right-color: rgba(180, 0, 255, 0.3);
+            animation-duration: 2s;
+        }
+        .bh-ring-2 {
+            width: 100px; height: 100px;
+            border-bottom-color: rgba(80, 0, 200, 0.7);
+            border-left-color: rgba(80, 0, 200, 0.2);
+            animation-duration: 3.5s;
+            animation-direction: reverse;
+        }
+        .bh-ring-3 {
+            width: 120px; height: 120px;
+            border-top-color: rgba(255, 100, 0, 0.5);
+            border-right-color: transparent;
+            animation-duration: 5s;
+        }
+
+        .black-hole.locked .bh-ring-1 { border-top-color: rgba(100,100,100,0.5); border-right-color: rgba(100,100,100,0.2); }
+        .black-hole.locked .bh-ring-2 { border-bottom-color: rgba(80,80,80,0.4); border-left-color: rgba(80,80,80,0.1); }
+        .black-hole.locked .bh-ring-3 { border-top-color: rgba(60,60,60,0.3); }
+        .black-hole.locked .bh-glow { background: radial-gradient(circle, transparent 40%, rgba(60,60,60,0.2) 70%, transparent 100%); }
+
+        @keyframes bhSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes bhPulse { 0%,100% { opacity: 0.6; transform: scale(1); } 50% { opacity: 1; transform: scale(1.2); } }
+
+        .danger-label {
+            margin-top: 12px;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9em;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .black-hole.unlocked + .danger-label { color: #b066ff; text-shadow: 0 0 10px rgba(180,0,255,0.5); }
+
+        /* DANGER ZONE PAGE */
+        .danger-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .danger-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        .danger-header h1 { font-size: 1.8em; }
+        .danger-header p { color: rgba(255,255,255,0.6); margin-top: 4px; }
+
+        .galaxies-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            justify-items: center;
+        }
+        /* Última linha centralizada se incompleta */
+        .galaxies-grid .galaxy-cell:nth-child(7) { grid-column: 2; }
+
+        .galaxy-cell {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            gap: 8px;
+        }
+
+        /* NEBULOSAS */
+        .nebula {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s;
+            animation: nebulaFloat 4s ease-in-out infinite;
+        }
+        .nebula:hover { transform: scale(1.1); }
+
+        .nebula-core {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.9);
+            box-shadow: 0 0 15px rgba(255,255,255,0.8);
+            z-index: 2;
+        }
+        .nebula-check {
+            position: absolute;
+            top: -4px; right: -4px;
+            background: #00c853;
+            color: white;
+            border-radius: 50%;
+            width: 22px; height: 22px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.7em; font-weight: bold;
+            z-index: 3;
+        }
+        .nebula.locked { filter: brightness(0.35) saturate(0.3); }
+
+        .galaxy-1 { background: radial-gradient(ellipse, #ff6b9d 0%, #c44dff 40%, #1a0040 100%); box-shadow: 0 0 30px rgba(196,77,255,0.4); }
+        .galaxy-2 { background: radial-gradient(ellipse, #43e97b 0%, #38f9d7 40%, #003020 100%); box-shadow: 0 0 30px rgba(67,233,123,0.4); }
+        .galaxy-3 { background: radial-gradient(ellipse, #fa8231 0%, #f7971e 40%, #401500 100%); box-shadow: 0 0 30px rgba(250,130,49,0.4); }
+        .galaxy-4 { background: radial-gradient(ellipse, #4facfe 0%, #00f2fe 40%, #001840 100%); box-shadow: 0 0 30px rgba(79,172,254,0.4); }
+        .galaxy-5 { background: radial-gradient(ellipse, #f953c6 0%, #b91d73 40%, #300010 100%); box-shadow: 0 0 30px rgba(249,83,198,0.4); }
+        .galaxy-6 { background: radial-gradient(ellipse, #ffd200 0%, #f7971e 40%, #402000 100%); box-shadow: 0 0 30px rgba(255,210,0,0.4); }
+        .galaxy-7 { background: radial-gradient(ellipse, #a8edea 0%, #fed6e3 40%, #2a0020 100%); box-shadow: 0 0 30px rgba(168,237,234,0.4); }
+
+        @keyframes nebulaFloat {
+            0%,100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        .galaxy-name { color: white; font-size: 0.8em; font-weight: bold; text-align: center; }
+        .galaxy-subtitle { color: rgba(255,255,255,0.5); font-size: 0.7em; text-align: center; }
+
+        @media (max-width: 400px) {
+            .nebula { width: 70px; height: 70px; }
+            .galaxies-grid { gap: 12px; }
+            .black-hole { width: 90px; height: 90px; }
+            .bh-ring-1 { width: 60px; height: 60px; }
+            .bh-ring-2 { width: 76px; height: 76px; }
+            .bh-ring-3 { width: 90px; height: 90px; }
+        }

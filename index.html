@@ -23,6 +23,31 @@
                 <button class="btn-reset" onclick="resetProgress()">🔄 Resetar Progresso</button>
             </div>
         </div>
+
+        <!-- DANGER ZONE -->
+        <div class="danger-zone-entry" onclick="openDangerZone()">
+            <div class="black-hole" id="blackHole">
+                <div class="bh-ring bh-ring-1"></div>
+                <div class="bh-ring bh-ring-2"></div>
+                <div class="bh-ring bh-ring-3"></div>
+                <div class="bh-core"></div>
+                <div class="bh-glow"></div>
+            </div>
+            <div class="danger-label" id="blackHoleLabel">🔒 Danger Zone</div>
+        </div>
+    </div>
+
+    <!-- DANGER ZONE VIEW -->
+    <div id="dangerZoneView" style="display:none">
+        <div class="danger-container">
+            <header class="danger-header">
+                <button class="btn btn-secondary" onclick="closeDangerZone()" style="margin-bottom:12px">← Voltar</button>
+                <h1>🌌 Danger Zone</h1>
+                <p>Prove que você domina o universo</p>
+                <div class="home-progress-word" id="dangerProgressWord"></div>
+            </header>
+            <div class="galaxies-grid" id="galaxiesGrid"></div>
+        </div>
     </div>
 
     <!-- MAP VIEW -->
