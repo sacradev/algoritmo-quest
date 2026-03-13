@@ -961,3 +961,153 @@
             .bh-ring-2 { width: 76px; height: 76px; }
             .bh-ring-3 { width: 90px; height: 90px; }
         }
+
+        /* ===== GALAXY VIEW ===== */
+        #galaxyView, #galaxyResult {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0a0015 0%, #1a0040 50%, #0d0025 100%);
+        }
+
+        .galaxy-view-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .galaxy-progress-bar {
+            height: 8px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .galaxy-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #b066ff, #ff6b9d);
+            border-radius: 4px;
+            transition: width 0.4s ease;
+        }
+
+        .galaxy-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 4px;
+        }
+        .galaxy-back-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85em;
+        }
+        .galaxy-title {
+            color: white;
+            font-size: 1.1em;
+            font-weight: bold;
+            flex: 1;
+            text-align: center;
+        }
+
+        .galaxy-status {
+            text-align: center;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.85em;
+        }
+
+        .galaxy-question-area {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 20px;
+            flex: 1;
+        }
+
+        .gq-context {
+            background: rgba(255,200,50,0.15);
+            border-left: 3px solid #ffd700;
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: #fff;
+            margin-bottom: 16px;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        .gq-prompt {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.85em;
+            margin-bottom: 10px;
+        }
+
+        .gq-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+
+        .gq-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.07);
+            border: 2px solid rgba(255,255,255,0.15);
+            border-radius: 10px;
+            cursor: pointer;
+            color: white;
+            transition: all 0.2s;
+            font-size: 0.9em;
+        }
+        .gq-option:hover { border-color: #b066ff; background: rgba(176,102,255,0.15); }
+        .gq-option.selected { border-color: #b066ff; background: rgba(176,102,255,0.25); }
+        .gq-option.correct { border-color: #00c853; background: rgba(0,200,83,0.2); }
+        .gq-option.incorrect { border-color: #ff4444; background: rgba(255,68,68,0.2); }
+
+        /* GALAXY RESULT */
+        .galaxy-result-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            min-height: 100vh;
+            justify-content: center;
+        }
+
+        .galaxy-result-icon { font-size: 4em; }
+        .galaxy-result-container h2 { font-size: 1.6em; letter-spacing: 2px; }
+
+        .galaxy-result-score {
+            font-size: 3em;
+            font-weight: bold;
+        }
+        .galaxy-result-score.approved { color: #00e676; text-shadow: 0 0 20px rgba(0,230,118,0.5); }
+        .galaxy-result-score.failed { color: #ff6b6b; }
+
+        .galaxy-result-container p { color: rgba(255,255,255,0.7); font-size: 0.95em; }
+
+        .galaxy-result-buttons { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 8px; }
+        .btn-galaxy-retry {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #b066ff, #7c3aed);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        .btn-galaxy-back {
+            padding: 12px 24px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }

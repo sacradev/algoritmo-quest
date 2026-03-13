@@ -433,7 +433,8 @@
             document.getElementById('galaxyStatus').textContent =
                 `Questão ${s.current + 1} de ${total} • Acertos: ${s.correct}`;
 
-            let html = '';
+            const typeLabel = q.type === 'write' ? '✍️ Escrever' : '🔵 Múltipla Escolha';
+            let html = `<div class="stage-type-badge">${typeLabel}</div>`;
 
             if (q.type === 'multiple') {
                 html += `<div class="gq-context">${q.question}</div>`;
