@@ -93,7 +93,7 @@
                 const prevWs = i === 0 ? null : getWorldState(world.id - 1);
                 const isCompleted = ws.worldCompleted;
                 const isUnlocked = i === 0 || (prevWs && prevWs.worldCompleted);
-                const isImplemented = world.id <= 3;
+                const isImplemented = world.id <= 4;
                 const isLocked = !isUnlocked || !isImplemented;
                 const isCurrent = isUnlocked && isImplemented && !isCompleted;
                 
@@ -174,6 +174,7 @@
             if (currentWorldId === 1) return WORLD;
             if (currentWorldId === 2) return WORLD_2;
             if (currentWorldId === 3) return WORLD_3;
+            if (currentWorldId === 4) return WORLD_4;
             return WORLD;
         }
 
