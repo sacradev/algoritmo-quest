@@ -420,6 +420,7 @@
 
             document.getElementById('dangerZoneView').style.display = 'none';
             document.getElementById('galaxyView').style.display = 'block';
+            document.querySelector('.galaxy-title').textContent = '🪐 Galáxia Alpha';
             renderGalaxyQuestion();
         }
 
@@ -434,32 +435,37 @@
             document.getElementById('galaxyStatus').textContent =
                 `Questão ${s.current + 1} de ${total} • Acertos: ${s.correct}`;
 
-            const typeLabel = q.type === 'write' ? '✍️ Escrever' : '🔵 Múltipla Escolha';
-            let html = `<div class="stage-type-badge">${typeLabel}</div>`;
+            const typeLabel = q.type === 'write' ? '✍️ Escrever' : '📝 Múltipla Escolha';
+            const context = q.type === 'multiple' ? q.question : q.context;
+
+            let html = `<div class="galaxy-question-card"><div class="question-area">
+                <div class="question-header">
+                    <span class="question-type">${typeLabel}</span>
+                </div>
+                <div class="question-context">${context}</div>`;
+
+            if (q.code) html += `<div class="question-code">${q.code}</div>`;
 
             if (q.type === 'multiple') {
-                html += `<div class="gq-context">${q.question}</div>`;
-                if (q.code) html += `<div class="question-code">${q.code}</div>`;
-                html += '<div class="gq-options">';
+                html += '<div class="options">';
                 (q._shuffledOptions || q.options).forEach((opt, i) => {
-                    html += `<div class="gq-option" id="gqOpt${i}" onclick="selectGalaxyOption(${i})">
+                    html += `<div class="option" id="gqOpt${i}" onclick="selectGalaxyOption(${i})">
                         <span class="option-letter">${String.fromCharCode(65 + i)}</span>
                         <span>${opt}</span>
                     </div>`;
                 });
                 html += '</div>';
             } else if (q.type === 'write') {
-                html += `<div class="gq-context">${q.context}</div>`;
-                if (q.code) html += `<div class="question-code">${q.code}</div>`;
                 html += `<div class="gq-prompt">${q.prompt}</div>`;
                 html += `<textarea id="gqWrite" class="write-input" rows="3" placeholder="Digite sua resposta..." spellcheck="false"></textarea>`;
             }
 
-            html += `<div id="gqFeedback" class="feedback"></div>`;
-            html += `<div class="action-buttons">
-                <button class="btn btn-primary" id="gqCheckBtn" onclick="checkGalaxyAnswer()">✔️ Verificar</button>
-                <button class="btn btn-success" id="gqNextBtn" style="display:none" onclick="nextGalaxyQuestion()">Continuar →</button>
-            </div>`;
+            html += `<div id="gqFeedback" class="feedback"></div>
+                <div class="action-buttons">
+                    <button class="btn btn-primary" id="gqCheckBtn" onclick="checkGalaxyAnswer()">✔️ Verificar</button>
+                    <button class="btn btn-success" id="gqNextBtn" style="display:none" onclick="nextGalaxyQuestion()">Continuar →</button>
+                </div>
+            </div></div>`;
 
             document.getElementById('galaxyQuestionArea').innerHTML = html;
             galaxySession.selectedOption = null;
@@ -467,7 +473,7 @@
 
         function selectGalaxyOption(i) {
             galaxySession.selectedOption = i;
-            document.querySelectorAll('.gq-option').forEach((el, idx) => {
+            document.querySelectorAll('#galaxyQuestionArea .option').forEach((el, idx) => {
                 el.classList.toggle('selected', idx === i);
             });
         }
@@ -502,11 +508,11 @@
                     document.getElementById(`gqOpt${s.selectedOption}`).classList.add('incorrect');
                     fb.innerHTML = `❌ Incorreto. 💡 ${q.tip}`;
                     fb.className = 'feedback show incorrect';
+                    // Deseleciona após breve destaque, mas tip fica estática
                     setTimeout(() => {
-                        document.querySelectorAll('.gq-option').forEach(el => el.classList.remove('incorrect', 'selected'));
+                        document.querySelectorAll('#galaxyQuestionArea .option').forEach(el => el.classList.remove('incorrect', 'selected'));
                         s.selectedOption = null;
-                        fb.className = 'feedback';
-                    }, 2000);
+                    }, 800);
                     return;
                 }
                 document.getElementById(`gqOpt${s.selectedOption}`).classList.add('correct');
@@ -519,10 +525,8 @@
                     input.style.borderColor = '#ff4444';
                     fb.innerHTML = `❌ Não é bem isso. 💡 ${q.tip}`;
                     fb.className = 'feedback show incorrect';
-                    setTimeout(() => {
-                        input.style.borderColor = '';
-                        fb.className = 'feedback';
-                    }, 2500);
+                    // Borda volta após destaque, mas tip fica estática
+                    setTimeout(() => { input.style.borderColor = ''; }, 800);
                     return;
                 }
                 input.style.borderColor = '#00c853';
@@ -532,6 +536,7 @@
             s.correct++;
             fb.innerHTML = `✅ ${q.successMessage || 'Correto!'}`;
             fb.className = 'feedback show correct';
+            document.querySelectorAll('#galaxyQuestionArea .option').forEach(e => e.style.pointerEvents = 'none');
             document.getElementById('gqCheckBtn').style.display = 'none';
             document.getElementById('gqNextBtn').style.display = 'inline-flex';
         }

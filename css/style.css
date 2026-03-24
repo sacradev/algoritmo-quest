@@ -969,13 +969,39 @@
         }
 
         .galaxy-view-container {
-            max-width: 500px;
+            max-width: 520px;
             margin: 0 auto;
             padding: 20px;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             gap: 16px;
+        }
+
+        /* Header: botão à esquerda, título centralizado de verdade */
+        .galaxy-header {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+        .galaxy-back-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85em;
+            justify-self: start;
+            white-space: nowrap;
+        }
+        .galaxy-title {
+            color: white;
+            font-size: 1.1em;
+            font-weight: bold;
+            text-align: center;
+            padding: 0 12px;
         }
 
         .galaxy-progress-bar {
@@ -991,29 +1017,6 @@
             transition: width 0.4s ease;
         }
 
-        .galaxy-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 4px;
-        }
-        .galaxy-back-btn {
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: white;
-            padding: 8px 14px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.85em;
-        }
-        .galaxy-title {
-            color: white;
-            font-size: 1.1em;
-            font-weight: bold;
-            flex: 1;
-            text-align: center;
-        }
-
         .galaxy-status {
             text-align: center;
             color: rgba(255,255,255,0.7);
@@ -1021,48 +1024,86 @@
         }
 
         .galaxy-question-area {
-            background: rgba(255,255,255,0.05);
-            border-radius: 16px;
-            padding: 20px;
-            flex: 1;
+            padding: 0;
         }
 
-        .gq-context {
-            background: rgba(255,200,50,0.15);
-            border-left: 3px solid #ffd700;
-            border-radius: 8px;
-            padding: 12px 16px;
-            color: #fff;
-            margin-bottom: 16px;
-            font-size: 0.95em;
-            line-height: 1.5;
+        /* Card da questão — fundo levemente destacado sobre o roxo do bg */
+        .galaxy-question-card {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(176,102,255,0.25);
+            border-radius: 18px;
+            padding: 22px;
+            animation: slideUp 0.3s ease;
         }
 
+        /* Overrides das classes do modal para o contexto escuro da galáxia */
+        #galaxyView .question-header {
+            background: rgba(255,255,255,0.08);
+        }
+        #galaxyView .question-type {
+            background: #b066ff;
+        }
+        #galaxyView .question-context {
+            background: rgba(255,193,7,0.12);
+            color: #ffd54f;
+            border-color: #ff9800;
+        }
+        #galaxyView .option {
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(255,255,255,0.12);
+            color: white;
+        }
+        #galaxyView .option-letter {
+            background: rgba(176,102,255,0.35);
+            color: white;
+        }
+        #galaxyView .option:hover:not(.disabled) {
+            border-color: #b066ff;
+            background: rgba(176,102,255,0.18);
+        }
+        #galaxyView .option.selected {
+            border-color: #b066ff;
+            background: rgba(176,102,255,0.25);
+        }
+        #galaxyView .option.selected .option-letter {
+            background: #b066ff;
+            color: white;
+        }
+        #galaxyView .option.correct {
+            border-color: #00c853;
+            background: rgba(0,200,83,0.18);
+        }
+        #galaxyView .option.correct .option-letter {
+            background: #00c853;
+            color: white;
+        }
+        #galaxyView .option.incorrect {
+            border-color: #ff4444;
+            background: rgba(255,68,68,0.18);
+        }
+        #galaxyView .feedback.correct {
+            background: rgba(0,200,83,0.18);
+            border-left-color: #00c853;
+            color: #b9f6ca;
+        }
+        #galaxyView .feedback.incorrect {
+            background: rgba(255,68,68,0.18);
+            border-left-color: #ff4444;
+            color: #ff8a80;
+        }
+        #galaxyView .write-input {
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(176,102,255,0.4);
+            color: white;
+        }
+        #galaxyView .write-input:focus {
+            border-color: #b066ff;
+        }
         .gq-prompt {
             color: rgba(255,255,255,0.6);
             font-size: 0.85em;
             margin-bottom: 10px;
         }
-
-        .gq-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
-
-        .gq-option {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
-            background: rgba(255,255,255,0.07);
-            border: 2px solid rgba(255,255,255,0.15);
-            border-radius: 10px;
-            cursor: pointer;
-            color: white;
-            transition: all 0.2s;
-            font-size: 0.9em;
-        }
-        .gq-option:hover { border-color: #b066ff; background: rgba(176,102,255,0.15); }
-        .gq-option.selected { border-color: #b066ff; background: rgba(176,102,255,0.25); }
-        .gq-option.correct { border-color: #00c853; background: rgba(0,200,83,0.2); }
-        .gq-option.incorrect { border-color: #ff4444; background: rgba(255,68,68,0.2); }
 
         /* GALAXY RESULT */
         .galaxy-result-container {
